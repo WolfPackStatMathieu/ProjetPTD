@@ -2,9 +2,20 @@
 classe abstraite'''
 from abc import ABC, abstractmethod
 
+from fileinput import filename
+import gzip
+import csv
+import numpy as np
+
 class Chargement(ABC):
+    ''' Classe abstraite pour charger les données
+
+    '''
     def __init__(self, chemin, nom):
         """classe abstraite Chargement pour charger les données
+        récupère les données d'un fichier CSV et crée le jeu de donnees afferent.
+        Si il y a des valeurs manquantes, le programme affiche un message d'avertissement
+
 
 
         Parameters
@@ -14,20 +25,10 @@ class Chargement(ABC):
         nom : list de string
             _description_
         """
+        pass
 
-from fileinput import filename
-import gzip
-import csv
-import numpy as np
-#Dossier où se trouve le fichier :
-folder = chemin
-filename = 'synop.201301.csv.gz'
-data = []
-with gzip.open(folder + filename, mode='rt') as gzfile :
-    #.readlines()[1:3] pour ne lire que les 3 premières lignes
-    synopreader = csv.reader(gzfile.readlines()[0:3], delimiter = ';')
-    for row in synopreader :
-        data.append(row)
-print(data)
-data_np = np.array(data)
-print(data_np)
+
+if __name__ == '__main__':
+    #Test des exemples de la documentation
+    import doctest
+    doctest.testmod(verbose=True)
