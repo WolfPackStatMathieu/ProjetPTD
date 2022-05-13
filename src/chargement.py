@@ -1,5 +1,20 @@
-'''nom du module, ici lecture.py
-'''
+'''module chargement.py,
+classe abstraite'''
+from abc import ABC, abstractmethod
+
+class Chargement(ABC):
+    def __init__(self, chemin, nom):
+        """classe abstraite Chargement pour charger les données
+
+
+        Parameters
+        ----------
+        chemin : str
+            chemin du dossier où sont situés les fichiers à charger
+        nom : list de string
+            _description_
+        """
+
 from fileinput import filename
 import gzip
 import csv
