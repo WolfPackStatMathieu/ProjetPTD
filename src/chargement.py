@@ -6,7 +6,7 @@ class Chargement(ABC):
     ''' Classe abstraite pour charger les données
 
     '''
-    def __init__(self, chemin, nom):
+    def __init__(self, chemin_dossier, noms_fichiers):
         """classe abstraite Chargement pour charger les données
         récupère les données d'un fichier CSV et crée le jeu de donnees afferent.
         Si il y a des valeurs manquantes, le programme affiche un message d'avertissement
@@ -21,6 +21,9 @@ class Chargement(ABC):
             liste des noms de fichiers à charger
 
         """
+
+
+
     def ope(self):
         """opération abstraite
         """
