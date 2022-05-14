@@ -8,9 +8,11 @@ class Pipeline:
         self.resultat = resultat
     
     def get_pip(self):
+        print(self.etapes)
         return self.etapes
     
     def get_res(self):
+        print(self.resultat)
         return self.resultat
     
     def add_ope(self,operation):
