@@ -1,11 +1,6 @@
 '''module chargement.py,
 classe abstraite'''
-from abc import ABC, abstractmethod
-
-from fileinput import filename
-import gzip
-import csv
-import numpy as np
+from abc import ABC
 
 class Chargement(ABC):
     ''' Classe abstraite pour charger les données
@@ -22,10 +17,13 @@ class Chargement(ABC):
         ----------
         chemin : str
             chemin du dossier où sont situés les fichiers à charger
-        nom : list de string
-            _description_
+        nom : list[str]
+            liste des noms de fichiers à charger
+
         """
-        pass
+    def ope(self):
+        """opération abstraite
+        """
 
 
 if __name__ == '__main__':
