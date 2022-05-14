@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 ''''''
 from re import I
 import numpy as np
@@ -76,7 +75,6 @@ class Donnees :
                 if not np.nan in x :
                     ajout[i] = transformation(tuple(x))
             self.add_var([nom],ajout)
-=======
 '''module Donnees pour représenter un jeu de données
 '''
 import numpy as np
@@ -115,4 +113,3 @@ if __name__ == '__main__':
     #Test des exemples de la documentation
     import doctest
     doctest.testmod(verbose=True)
->>>>>>> 1914809d796f1948f9f0ea6c8a19e6be66286b32
