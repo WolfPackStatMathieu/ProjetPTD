@@ -71,7 +71,7 @@ class ChargementCsv(Chargement):
 
         #On ne conserve que les fichiers en .csv.gz
         #fichiers_csvgz = {fichier for fichier in listeFichiers if fichier.split('.csv.gz')[-1] == ''}
-
+# TODO retirer les noms de fichiers qui ne sont pas en csv.gz
 
 
 
