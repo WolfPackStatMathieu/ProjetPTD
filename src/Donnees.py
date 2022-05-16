@@ -1,5 +1,4 @@
 ''''''
-from re import I
 import numpy as np
 
 class Donnees :
@@ -38,7 +37,7 @@ class Donnees :
             else:
                 raise Exception("dimension non compatible")
         
-        def delete(self, variables_to_del):
+        def del_var(self, variables_to_del):
             for v in variables_to_del :
                 i = self.get_var(v)
                 self.variables.pop(i)
