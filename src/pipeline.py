@@ -27,7 +27,7 @@ class Pipeline:
     
     def execute(self):
         for commande in self.etapes :
-            commande.ope(self.resultat)
+            commande.ope(self)
         
 
     
