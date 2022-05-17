@@ -4,7 +4,7 @@ import numpy as np
 
 class Donnees :
     '''représente un jeu de données
-    
+
     Parameters
     ----------
     variables : list[str]
@@ -18,41 +18,104 @@ class Donnees :
         Liste des noms de variables
     data : np.array
         donnees du jeu de donnees
+    var_types : list[type]
+        liste des types des variables
 
     Examples
     --------
     >>> import numpy as np
-    >>> donnees = Donnees(['nom', 'valeur'],
-    ...                    np.array([['a',1], ['b', 5, ], ['c',9]]))
+    >>> test = Donnees(['nom', 'valeur'],np.array([['a',1], ['b', 5, ], ['c',9]]))
     '''
-    
+    # def __init__(self, nom , variables, data):
     def __init__(self, variables , data):
         self.variables = variables
         self.data = data
         self.var_types = []
         for v in self.variables:
             self.var_types.append(self.var_type(v))
+        #self.nom = nom
 
     def get_var(self, nom_variable):
+        '''Renvoie l'indice de la variable en entrée
+        
+        Parameters
+        ----------
+        nom_variable : str
+            nom de la variable dont on veut l'indice
+
+        Returns
+        -------
+        int
+            indice de la variable dans la liste variables
+
+        Examples
+        --------
+        >>> import numpy as np
+        >>> test = Donnees(['nom', 'valeur'],np.array([['a',1], ['b', 5, ], ['c',9]]))
+        >>> test.get_var('valeur')
+        1
+        '''
         for i in range(len(self.variables)) :
             if self.variables[i] == nom_variable :
                 return i
         raise Exception("variable inconnue au bataillon")
         
     def var_type(self, nom_variable):
+        '''Renvoie le type de la variable en entrée
+        
+        Parameters
+        ----------
+        nom_variable : str
+            nom de la variable dont on veut le type
+
+        Returns
+        -------
+        int
+            type de la variable dans le tableau numpy
+
+        Examples
+        --------
+        >>> import numpy as np
+        >>> test = Donnees(['nom', 'valeur'],np.array([['a',1], ['b', 5, ], ['c',9]]))
+        >>> test.var_type('valeur')
+        int
+        '''        
         i = self.get_var(nom_variable)
         for k in range(self.data.shape[0]):
             if self.data[k,i] != np.nan:
-                return type(self.data[k,i])
+                return type(self.data[k,i].item())
         return np.nan
             
     def list_var(self) :
+        '''renvoie la liste des variables
+        '''
         return self.variables
 
     def __str__(self) :
+        '''renvoie le tableau numpy du jeu de données sous format str'''
         return np.array2string(self.data)
     
     def add_var(self, variable_sups, donnees_sups):
+        '''ajoute une liste de variable a un jeu de données
+        
+        Parameters
+        ----------
+        variables_sups : list[str]
+            liste des noms des variables
+        donnees_sups : numpy.array
+            données des variables à ajouter
+
+        Examples
+        --------
+        >>> import numpy as np
+        >>> test = Donnees(['nom', 'valeur'],np.array([['a',1], ['b', 5, ], ['c',9]]))
+        >>> test.add_var(['numero'],np.array([[1],[2],[3]]))
+        >>> print(test)
+        [['a' '1' '1']
+         ['b' '5' '2']
+         ['c' '9' '3']]
+        '''
+
         if self.data.shape[0] == variable_sups.shape[0] :
             self.variables += variable_sups
             self.data = np.concatenate((self.data, donnees_sups), axis = 1)
@@ -62,11 +125,33 @@ class Donnees :
             raise Exception("dimension non compatible")
         
     def del_var(self, variables_to_del):
+        '''enleve une liste de variable a un jeu de données
+        
+        Parameters
+        ----------
+        variables_sups : list[str]
+            liste des noms des variables
+
+        Examples
+        --------
+        >>> import numpy as np
+        >>> test = Donnees(['nom', 'valeur'],np.array([['a',1], ['b', 5, ], ['c',9]]))
+        >>> test.del_var(['nom'])
+        >>> print(test)
+        [[1]
+         [5]
+         [9]]
+        '''
         for v in variables_to_del :
             i = self.get_var(v)
             self.variables.pop(i)
             self.var_types.pop(i)
             self.data = np.delete(self.data,i ,1)
+    
+    def var_num(self):
+        for v in self.variables:
+            if self.var_type(v) != int and self.var_type(v) != float :
+                self.del_var([v])
     
     def concat(self, autres_donnees):
         assert len(self.variables) >= len(autres_donnees.variables)
