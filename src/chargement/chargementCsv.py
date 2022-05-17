@@ -11,7 +11,8 @@ from os.path import isfile, join
 from os import walk
 
 class ChargementCsv(Chargement):
-    """Permet le chargement de jeux de données à partir d'un dossier archivant des fichiers csv
+    """Permet le chargement de jeux de données à partir d'un dossier
+    archivant des fichiers csv.
 
     Parameters
     ----------
