@@ -1,4 +1,5 @@
-from donnees import np, Donnees
+from numpy import array
+from donnees import Donnees
 from operation import Operation
 ''''''
 class Pipeline:
