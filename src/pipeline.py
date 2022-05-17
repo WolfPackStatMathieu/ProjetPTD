@@ -1,4 +1,3 @@
-from numpy import array
 from donnees import np, Donnees
 from operation import Operation
 ''''''
@@ -26,7 +25,7 @@ class Pipeline:
     
     def execute(self):
         for commande in self.etapes :
-            commande.ope()
+            commande.ope(self)
         
 
     
