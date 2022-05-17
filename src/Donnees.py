@@ -24,7 +24,7 @@ class Donnees :
     Examples
     --------
     >>> import numpy as np
-    >>> test = Donnees(['nom', 'valeur'],np.array([['a',1], ['b', 5, ], ['c',9]]))
+    >>> test = Donnees(['nom', 'valeur'],np.array([['a',1], ['b', 5 ], ['c',9]]))
     '''
     # def __init__(self, nom , variables, data):
     def __init__(self, variables , data):
@@ -51,7 +51,7 @@ class Donnees :
         Examples
         --------
         >>> import numpy as np
-        >>> test = Donnees(['nom', 'valeur'],np.array([['a',1], ['b', 5, ], ['c',9]]))
+        >>> test = Donnees(['nom', 'valeur'],np.array([['a',1], ['b', 5], ['c',9]]))
         >>> test.get_var('valeur')
         1
         '''
@@ -76,14 +76,14 @@ class Donnees :
         Examples
         --------
         >>> import numpy as np
-        >>> test = Donnees(['nom', 'valeur'],np.array([['a',1], ['b', 5, ], ['c',9]]))
+        >>> test = Donnees(['nom', 'valeur'],np.array([['a',1], ['b', 5 ], ['c',9]]))
         >>> test.var_type('valeur')
         int
         '''        
         i = self.get_var(nom_variable)
         for k in range(self.data.shape[0]):
             if self.data[k,i] != np.nan:
-                return type(self.data[k,i].item())
+                return type(self.data[k,i].item()).__name__
         return np.nan
             
     def list_var(self) :
@@ -135,7 +135,7 @@ class Donnees :
         Examples
         --------
         >>> import numpy as np
-        >>> test = Donnees(['nom', 'valeur'],np.array([['a',1], ['b', 5, ], ['c',9]]))
+        >>> test = Donnees(['nom', 'valeur'],np.array([['a',1], ['b', 5 ], ['c',9]]))
         >>> test.del_var(['nom'])
         >>> print(test)
         [[1]
