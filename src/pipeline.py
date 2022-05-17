@@ -1,5 +1,3 @@
-from boto import set_file_logger
-from numpy import array
 from donnees import np, Donnees
 from operation import Operation
 ''''''
