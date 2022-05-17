@@ -3,8 +3,8 @@ Module de chargement des donnees à partir d'un fichier cvs
 '''
 from genericpath import isfile
 from chargement import Chargement
-import numpy as np
-from donnees import Donnees
+import numpy as nps
+#from .src import donnees
 import os
 from os import listdir
 from os.path import isfile, join
@@ -48,6 +48,7 @@ class ChargementCsv(Chargement):
         >>> delimiteur = ';'
         >>> chargement1 = ChargementCsv(chemin_dossier, nom_fichier, delimiteur, True)
 
+
         """
 
         Chargement.__init__(self, chemin_dossier, noms_fichiers)
@@ -61,18 +62,17 @@ class ChargementCsv(Chargement):
             for fichier in fichiers:
 
                 fichiers_trouves[fichier] = os.path.abspath(f"{repertoire}/{fichier}")
-                print(fichiers_trouves[fichier])
+        for item in fichiers_trouves:
+            if fichiers_trouves[cle].split('\\')[-1].split('.')[-2:] != ['csv', 'gz']:
+                del fichiers_trouves[cle]
+        print(fichiers_trouves)
+        print(os.getcwd)
 
-        # for fichier in fichiers_trouves:
-        # condition surl e nom de fichier à garder
-        #     if fichiers_trouves[fichier].split('csv.gz')[-1] != '':
-
-
-        # print(fichiers_trouves)
 
         #On ne conserve que les fichiers en .csv.gz
         #fichiers_csvgz = {fichier for fichier in listeFichiers if fichier.split('.csv.gz')[-1] == ''}
-# TODO retirer les noms de fichiers qui ne sont pas en csv.gz
+        # TODO retirer les noms de fichiers qui ne sont pas en csv.gz
+
 
 
 
