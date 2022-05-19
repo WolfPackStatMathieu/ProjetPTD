@@ -11,6 +11,8 @@ class Donnees :
         Liste des noms de variables
     data : np.array
         donnees du jeu de donnees
+    nom : str
+        nom du jeu de donnéees
 
     Attributes
     ----------
@@ -20,11 +22,13 @@ class Donnees :
         donnees du jeu de donnees
     var_types : list[type]
         liste des types des variables
+    nom: str
+        nom du jeu de données
 
     Examples
     --------
     >>> import numpy as np
-    >>> test = Donnees(['nom', 'valeur'],np.array([['a',1], ['b', 5 ], ['c',9]]))
+    >>> test = Donnees('test',['nom', 'valeur'],np.array([['a',1], ['b', 5 ], ['c',9]]))
     '''
     def __init__(self, nom , variables, data):
         self.variables = variables
@@ -50,7 +54,7 @@ class Donnees :
         Examples
         --------
         >>> import numpy as np
-        >>> test = Donnees(['nom', 'valeur'],np.array([['a',1], ['b', 5], ['c',9]]))
+        >>> test = Donnees('test',['nom', 'valeur'],np.array([['a',1], ['b', 5], ['c',9]]))
         >>> test.get_var('valeur')
         1
         '''
@@ -75,19 +79,20 @@ class Donnees :
         Examples
         --------
         >>> import numpy as np
-        >>> test = Donnees(['nom', 'valeur'],np.array([['a',1], ['b', 5 ], ['c',9]]))
+        >>> test = Donnees('test',['nom', 'valeur'],np.array([['a',1], ['b', 5 ], ['c',9]],dtype="O"))
         >>> test.var_type('valeur')
         int
         '''        
         i = self.get_var(nom_variable)
         for k in range(self.data.shape[0]):
             if self.data[k,i] != np.nan:
-                return type(self.data[k,i]).__name__
+                return type(self.data[k,i])
         return np.nan
             
     def list_var(self) :
         '''renvoie la liste des variables
         '''
+        print(self.variables)
         return self.variables
 
     def __str__(self) :
