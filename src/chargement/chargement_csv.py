@@ -6,7 +6,7 @@ import csv
 import sys
 from datetime import datetime
 
-from Donnees import Donnees
+
 import numpy as np
 from chargement import Chargement
 
