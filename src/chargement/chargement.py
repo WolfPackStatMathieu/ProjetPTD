@@ -1,7 +1,7 @@
 '''module chargement.py,
 classe abstraite'''
 from abc import ABC
-
+from operation import Operation
 class Chargement(ABC):
     ''' Classe abstraite pour charger les données
 
