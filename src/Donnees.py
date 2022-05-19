@@ -26,14 +26,13 @@ class Donnees :
     >>> import numpy as np
     >>> test = Donnees(['nom', 'valeur'],np.array([['a',1], ['b', 5 ], ['c',9]]))
     '''
-    # def __init__(self, nom , variables, data):
-    def __init__(self, variables , data):
+    def __init__(self, nom , variables, data):
         self.variables = variables
         self.data = data
         self.var_types = []
         for v in self.variables:
             self.var_types.append(self.var_type(v))
-        #self.nom = nom
+        self.nom = nom
 
     def get_var(self, nom_variable):
         '''Renvoie l'indice de la variable en entrée
@@ -70,7 +69,7 @@ class Donnees :
 
         Returns
         -------
-        int
+        str
             type de la variable dans le tableau numpy
 
         Examples
@@ -83,7 +82,7 @@ class Donnees :
         i = self.get_var(nom_variable)
         for k in range(self.data.shape[0]):
             if self.data[k,i] != np.nan:
-                return type(self.data[k,i].item()).__name__
+                return type(self.data[k,i]).__name__
         return np.nan
             
     def list_var(self) :
