@@ -83,7 +83,7 @@ class Donnees :
         i = self.get_var(nom_variable)
         for k in range(self.data.shape[0]):
             if self.data[k,i] != np.nan:
-                return type(self.data[k,i].item()).__name__
+                return type(self.data[k,i]).__name__
         return np.nan
             
     def list_var(self) :
