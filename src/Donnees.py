@@ -9,8 +9,8 @@ class Donnees :
     ----------
     variables : list[str]
         Liste des noms de variables
-    data : np.array
-        donnees du jeu de donnees
+    data : list[list]
+        donnees du jeu de donnees sous format matrice
     nom : str
         nom du jeu de donnéees
 
@@ -19,7 +19,7 @@ class Donnees :
     variables : list[str]
         Liste des noms de variables
     data : np.array
-        donnees du jeu de donnees
+        donnees du jeu de donnees converties en array
     var_types : list[type]
         liste des types des variables
     nom: str
@@ -28,11 +28,11 @@ class Donnees :
     Examples
     --------
     >>> import numpy as np
-    >>> test = Donnees('test',['nom', 'valeur'],np.array([['a',1], ['b', 5 ], ['c',9]]))
+    >>> test = Donnees('nom',['nom', 'valeur'],[['a',1], ['b', 5 ], ['c',9]])
     '''
     def __init__(self, nom , variables, data):
         self.variables = variables
-        self.data = data
+        self.data = np.array(data,dtype=object)
         self.var_types = []
         for v in self.variables:
             self.var_types.append(self.var_type(v))
@@ -54,7 +54,7 @@ class Donnees :
         Examples
         --------
         >>> import numpy as np
-        >>> test = Donnees('test',['nom', 'valeur'],np.array([['a',1], ['b', 5], ['c',9]]))
+        >>> test = Donnees('nom',['nom', 'valeur'],[['a',1], ['b', 5], ['c',9]])
         >>> test.get_var('valeur')
         1
         '''
@@ -79,9 +79,9 @@ class Donnees :
         Examples
         --------
         >>> import numpy as np
-        >>> test = Donnees('test',['nom', 'valeur'],np.array([['a',1], ['b', 5 ], ['c',9]],dtype="O"))
+        >>> test = Donnees('nom',['nom', 'valeur'],[['a',1], ['b', 5 ], ['c',9]])
         >>> test.var_type('valeur')
-        int
+        <class 'int'>
         '''        
         i = self.get_var(nom_variable)
         for k in range(self.data.shape[0]):
@@ -93,10 +93,10 @@ class Donnees :
         '''renvoie la liste des variables
         '''
         print(self.variables)
-        return self.variables
 
     def __str__(self) :
-        '''renvoie le tableau numpy du jeu de données sous format str'''
+        '''renvoie le tableau numpy du jeu de données sous format str
+        '''
         return np.array2string(self.data)
     
     def add_var(self, variable_sups, donnees_sups):
@@ -112,18 +112,18 @@ class Donnees :
         Examples
         --------
         >>> import numpy as np
-        >>> test = Donnees(['nom', 'valeur'],np.array([['a',1], ['b', 5, ], ['c',9]]))
-        >>> test.add_var(['numero'],np.array([[1],[2],[3]]))
+        >>> test = Donnees('nom',['nom', 'valeur'],[['a',1], ['b', 5, ], ['c',9]])
+        >>> test.add_var(['numero'],np.array([[1],[2],[3]], dtype=object))
         >>> print(test)
-        [['a' '1' '1']
-         ['b' '5' '2']
-         ['c' '9' '3']]
+        [['a' 1 1]
+         ['b' 5 2]
+         ['c' 9 3]]
         '''
 
-        if self.data.shape[0] == variable_sups.shape[0] :
+        if self.data.shape[0] == donnees_sups.shape[0] :
             self.variables += variable_sups
             self.data = np.concatenate((self.data, donnees_sups), axis = 1)
-            for v in donnees_sups:
+            for v in variable_sups:
                 self.var_types.append(self.var_type(v))
         else:
             raise Exception("dimension non compatible")
@@ -139,7 +139,7 @@ class Donnees :
         Examples
         --------
         >>> import numpy as np
-        >>> test = Donnees(['nom', 'valeur'],np.array([['a',1], ['b', 5 ], ['c',9]]))
+        >>> test = Donnees('nom',['nom', 'valeur'],[['a',1], ['b', 5 ], ['c',9]])
         >>> test.del_var(['nom'])
         >>> print(test)
         [[1]
@@ -153,19 +153,77 @@ class Donnees :
             self.data = np.delete(self.data,i ,1)
     
     def var_num(self):
+        '''enleve les variable non numériques du jeu de données
+
+        Examples
+        --------
+        >>> import numpy as np
+        >>> test = Donnees('nom',['nom', 'valeur'],[['a',1], ['b', 5 ], ['c',9]])
+        >>> test.var_num()
+        >>> print(test)
+        [[1]
+         [5]
+         [9]]
+        '''
         for v in self.variables:
             if self.var_type(v) != int and self.var_type(v) != float :
                 self.del_var([v])
     
     def concat(self, autres_donnees):
+        '''concatène 2 jeu de données selon les variables de l'objet de la méthode
+        
+        Parameters
+        ----------
+        autres_donnees : Donnees
+            donnees à concaténer
+
+        Examples
+        --------
+        >>> import numpy as np
+        >>> test = Donnees('nom',['nom', 'valeur'],[['a',1], ['b', 5 ], ['c',9]])
+        >>> test2 =  Donnees('nom2',['nom', 'valeur'],[['d',10], ['e', 50 ], ['f',90], ['z',100]])
+        >>> test.concat(test2)
+        >>> print(test)
+        [['a' 1]
+         ['b' 5]
+         ['c' 9]
+         ['d' 10]
+         ['e' 50]
+         ['f' 90]
+         ['z' 100]]
+        '''      
         assert len(self.variables) >= len(autres_donnees.variables)
-        permutation = np.full(autres_donnees.data.shape, np.nan)
+        permutation = np.full((autres_donnees.data.shape[0], self.data.shape[1]), np.nan, dtype= object)
         for v in self.variables :
             if v in autres_donnees.variables :
-                permutation[:,self.get_var(v)] = autres_donnees.data[:,]
-        self.data = np.concatenate((self.data,permutation))
+                permutation[:,self.get_var(v)] = autres_donnees.data[:,autres_donnees.get_var(v)]
+        self.data = np.concatenate((self.data,permutation), axis = 0)
         
     def filtre(self,parametres, test_filtre, keep_na = False):
+        '''filtre les lignes du jeu de donnees selon une fonction booleenne a partir d'un jeu de parametres
+        pris parmis les variables, keep_na determine si on garde la ligne lorsque qu'un des parametres manque
+        
+        Parameters
+        ----------
+        autres_donnees : Donnees
+            donnees à concaténer
+
+        Examples
+        --------
+        >>> import numpy as np
+        >>> test = Donnees('nom',['nom', 'valeur'],[['a',1], ['b', 5 ], ['c',9]])
+        >>> test2 =  Donnees('nom2',['nom', 'valeur'],[['d',10], ['e', 50 ], ['f',90], ['z',100]])
+        >>> test.concat(test2)
+        >>> print(test)
+        [['a' 1]
+         ['b' 5]
+         ['c' 9]
+         ['d' 10]
+         ['e' 50]
+         ['f' 90]
+         ['z' 100]]
+        '''      
+        
         # on utilise un compteur pour éviter les problèmes d'index après suppresion lors du parcours
         i=0
         while i <self.data.shape[0]:
