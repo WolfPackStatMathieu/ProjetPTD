@@ -3,6 +3,7 @@
 import os
 import gzip
 import csv
+from typing import Final
 import numpy as np
 from chargement import Chargement
 
@@ -76,13 +77,34 @@ class ChargementCsv(Chargement):
 
         for fichier, chemin in fichiers_conserves_2.items():
             data = []
+            presence_na = False
 
             with gzip.open(chemin, mode='rt') as gzfile :
                 #.readlines()[1:3] pour ne lire que les 3 premières lignes
                 synopreader = csv.reader(gzfile.readlines()[0:3], delimiter = delim)
                 for row in synopreader :
-                    # début du traitemen de chaque ligne
-                    print(row)
+                    # début du traitement de chaque ligne
+                    for i, value in enumerate(row): # on parcourt chaque ligne
+                        try:
+                            if value == 'mq': # C'est une valeur manquante
+                                row[i] = np.NaN
+                                presence_na = True # On marque la présence de valeur manquante
+                            if value.isdigit(): # C'est un int
+                                row[i] = int(value) # on le caste en int
+                            else: #C'est donc un float
+                                row[i] = float(value.replace(',', '.')) # on remplace les , par des .
+                        except Exception:
+                            pass # C'était une str mal formatée
+                    data.append(row)
+
+            print(data)
+            #On récupère le nombre de variables
+            nb_variables = max(len(row) for row in data)
+            print(nb_variables)
+
+
+
+
 
 if __name__ == '__main__':
     import doctest
