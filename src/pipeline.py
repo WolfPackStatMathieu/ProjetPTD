@@ -1,5 +1,5 @@
 from numpy import array
-from donnees import Donnees
+from chargement.Donnees import Donnees
 from operation import Operation
 ''''''
 class Pipeline:
