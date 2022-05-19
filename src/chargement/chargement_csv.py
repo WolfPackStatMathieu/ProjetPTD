@@ -3,10 +3,14 @@
 import os
 import gzip
 import csv
+import sys
 from datetime import datetime
+
+sys.path.insert(0, r'C:\Users\mathi\Documents\Ensai\Projet Traitement de Données\PTD\src\donnees.py')
+import donnees
 import numpy as np
 from chargement import Chargement
-from src import donnees
+
 
 class ChargementCsv(Chargement):
     """Permet le chargement de jeux de données à partir d'un dossier
@@ -70,7 +74,7 @@ class ChargementCsv(Chargement):
             if value.split('\\')[-1]  in noms_fichiers:
                 fichiers_conserves_2[key] = value
 
-        # mon test de retour
+        # retour pour la doctest
         for key, value in fichiers_conserves_2.items():
             print(value.split('\\')[-1:][0])
 
@@ -107,8 +111,8 @@ class ChargementCsv(Chargement):
             if header: #Si le fichier fourni contient les noms de variables
                 #On met à part les noms des variables
                 variables = data.pop(0)
-                print(variables)
-                print(len(variables))
+                #print(variables)
+                #print(len(variables))
                 if len(variables) < nb_variables: #il manque des noms de variables
                     #On rajoute des noms de variables artificiels
                     variables += [f'Var.{str(i)}' for i in range(len(variables) + 1,
@@ -123,7 +127,7 @@ class ChargementCsv(Chargement):
                 index = variables.index("date") #position de la colonne
                 for i, row in enumerate(data):
                     #on reformatte la valeur pour en faire une date
-                    row[index] = datetime.strptime(row[index], "%Y%m%d%H%I%M")
+                    row[index] = datetime.strptime(str(row[index]), "%Y%m%d%H%M%S")
 
 
             ### Gestion des lignes trop courtes ###
@@ -137,14 +141,7 @@ class ChargementCsv(Chargement):
 
 
             #On construit un objet Donnees par fichier
-            print(fichier)
-            #Donnees()
-
-
-
-
-
-
+            #Donnees(fichier , variables, data)
 
 
 
