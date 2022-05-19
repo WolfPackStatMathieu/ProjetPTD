@@ -6,8 +6,7 @@ import csv
 import sys
 from datetime import datetime
 
-sys.path.insert(0, r'C:\Users\mathi\Documents\Ensai\Projet Traitement de Données\PTD\src\donnees.py')
-import donnees
+from Donnees import Donnees
 import numpy as np
 from chargement import Chargement
 
@@ -141,7 +140,7 @@ class ChargementCsv(Chargement):
 
 
             #On construit un objet Donnees par fichier
-            #Donnees(fichier , variables, data)
+            Donnees(fichier , variables, data)
 
 
 
