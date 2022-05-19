@@ -216,7 +216,7 @@ class Donnees :
         --------
         >>> import numpy as np
         >>> test = Donnees('nom',['nom', 'valeur'],[['a',1], ['b', 5 ], ['c',9],['d',10], ['e', 50 ], ['f',90], ['z',100]])
-        >>> test.filtre(['valeur'],lambda x : 0 >= 50)
+        >>> test.filtre(['valeur'],lambda x : x[0] >= 50 )
         >>> print(test)
         [['e' 50]
          ['f' 90]
@@ -226,11 +226,11 @@ class Donnees :
         # lors du parcours
         i=0
         while i <self.data.shape[0]:
-            x = []
+            t = []
             for p in parametres :
-                x.append(self.data[i,self.get_var(p)])
-            if (np.nan in x and not keep_na) or not test_filtre(x):
-                np.delete(self.data,i ,0)
+                t.append(self.data[i,self.get_var(p)])
+            if (np.nan in t and not keep_na) or not test_filtre(tuple(t)):
+                self.data = np.delete(self.data,i , axis = 0)
             else :
                 i+=1
 
@@ -249,9 +249,8 @@ class Donnees :
         Examples
         --------
         >>> import numpy as np
-        >>> test = Donnees('nom',['nom', 'valeur'],[['a',1], ['b', 5 ], ['c',9],
-        ['d',10], ['e', 50 ], ['f',90], ['z',100]])
-        >>> test.transform('nouveau',['valeur'], lambda x : x + 2)
+        >>> test = Donnees('nom',['nom', 'valeur'],[['e', 50 ], ['f',90], ['z',100]])
+        >>> test.transform('nouveau',['valeur'], lambda x : x[0] + 2)
         >>> print(test)
         [['e' 50 52]
          ['f' 90 92]
