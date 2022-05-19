@@ -6,6 +6,7 @@ import csv
 from datetime import datetime
 import numpy as np
 from chargement import Chargement
+from src import donnees
 
 class ChargementCsv(Chargement):
     """Permet le chargement de jeux de données à partir d'un dossier
@@ -136,6 +137,9 @@ class ChargementCsv(Chargement):
 
 
             #On construit un objet Donnees par fichier
+            print(fichier)
+            #Donnees()
+
 
 
 
