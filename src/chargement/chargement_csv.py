@@ -3,7 +3,7 @@
 import os
 import gzip
 import csv
-from typing import Final
+from datetime import datetime
 import numpy as np
 from chargement import Chargement
 
@@ -87,20 +87,62 @@ class ChargementCsv(Chargement):
                     for i, value in enumerate(row): # on parcourt chaque ligne
                         try:
                             if value == 'mq': # C'est une valeur manquante
-                                row[i] = np.NaN
+                                row[i] = np.NaN #transformation en type valeur manquante de numpy
                                 presence_na = True # On marque la présence de valeur manquante
                             if value.isdigit(): # C'est un int
                                 row[i] = int(value) # on le caste en int
                             else: #C'est donc un float
-                                row[i] = float(value.replace(',', '.')) # on remplace les , par des .
+                                row[i] = float(value.replace(',', '.')) # on remplace les ,
+                                #par des .
                         except Exception:
                             pass # C'était une str mal formatée
-                    data.append(row)
+                    data.append(row) #on ajoute la ligne à nos données
 
-            print(data)
-            #On récupère le nombre de variables
+            ### Gestion du nombre et des noms de variables ###
+            #On récupère le nombre colonnes maximum : c'est le nombre de variables
             nb_variables = max(len(row) for row in data)
-            print(nb_variables)
+
+
+            if header: #Si le fichier fourni contient les noms de variables
+                #On met à part les noms des variables
+                variables = data.pop(0)
+                print(variables)
+                print(len(variables))
+                if len(variables) < nb_variables: #il manque des noms de variables
+                    #On rajoute des noms de variables artificiels
+                    variables += [f'Var.{str(i)}' for i in range(len(variables) + 1,
+                                                                 nb_variables + 1)]
+            else: #Il n'y a pas de nom de variable
+                #On les rajoute artificiellement
+                #Var.1 Var.2 Var.3 .....
+                variables = [f'Var.{str(i)}' for i in range(1, nb_variables+1)]
+
+            ### Gestion des dates ###
+            if "date" in variables:
+                index = variables.index("date") #position de la colonne
+                for i, row in enumerate(data):
+                    #on reformatte la valeur pour en faire une date
+                    row[index] = datetime.strptime(row[index], "%Y%m%d%H%I%M")
+
+
+            ### Gestion des lignes trop courtes ###
+            #on introduit des valeurs manquantes
+            introduction_nan = False
+            for i, row in enumerate(data):
+                if len(row) != nb_variables:
+                    #Il faut autant de nan que de colonnes manquantes
+                    row += [np.NaN] * (nb_variables - len(row))
+                    introduction_nan = True #signale l'introduction de valeurs manquantes
+
+
+            #On construit un objet Donnees par fichier
+
+
+
+
+
+
+
 
 
 
