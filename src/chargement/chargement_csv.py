@@ -175,14 +175,8 @@ class ChargementCsv(Chargement):
             elif presence_na:
                 print("Attention: le jeu de données "f'{nom_donnees} ' "présente des valeurs manquantes")
 
-    def ope(self. Pipeline):
-
-
-
-
-
-
-
+    def ope(self, pipeline):
+        pass
 
 
 

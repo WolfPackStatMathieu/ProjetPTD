@@ -1,7 +1,6 @@
 '''module contenant la classe de la pipeline'''
 
 from numpy import array
-from chargement.Donnees import Donnees
 from operation import Operation
 
 class Pipeline:
@@ -57,7 +56,7 @@ class Pipeline:
         ''' execute l'ensemble des etapes'''
         for commande in self.etapes :
             commande.ope(self)
-        
+
 
 
 
