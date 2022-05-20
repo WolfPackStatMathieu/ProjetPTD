@@ -15,16 +15,18 @@ class ChargementCsv(Chargement):
     """Permet le chargement de jeux de données à partir d'un dossier
     archivant des fichiers csv.
 
+    Ce module charge en mémoire autant de jeux de Données que de fichiers csv.gz et
+
     Parameters
     ----------
-    chemin : str
+    chemin_dossier : str
             chemin du dossier où sont situés les fichiers à charger
-    nom : list[str]
+    noms_fichiers : list[str]
         liste des noms de fichiers à charger
         vaut 'all' par défaut pour charger tous les fichiers de type csv
         présents dans le dossier d'archivage
     """
-    def __init__(self, chemin_dossier, noms_fichiers, delim =';', header=True):
+    def __init__(self, chemin_dossier, noms_fichiers = 'all', delim =';', header=True):
         """crée un pipeline contenant le premier fichier du dossier, et crée aussi
         les Données de chacun des autres fichiers présents.
 
@@ -50,8 +52,9 @@ class ChargementCsv(Chargement):
         >>> chemin_dossier = str(path) + "\\Fichiers de Données .csv.gz-20220405"
         >>> nom_fichier='synop.201301.csv.gz'
         >>> delimiteur = ';'
-        >>> ChargementCsv(chemin_dossier, nom_fichier, delimiteur, True)
-
+        >>> ChargementCsv(chemin_dossier, nom_fichier, delimiteur, True) # doctest:+ELLIPSIS
+        Attention: le jeu de données synop_201301 présente des valeurs manquantes
+        ...
 
         """
         Chargement.__init__(self, chemin_dossier, noms_fichiers)
@@ -68,15 +71,20 @@ class ChargementCsv(Chargement):
             #Si le nom de fichier a une extension 'csv.gz' on le garde
             if value.split('\\')[-1].split('.')[-2:] == ['csv', 'gz']:
                 fichiers_conserves[key] = value
+
         fichiers_conserves_2 ={}
-        for key, value in fichiers_conserves.items():
-            if value.split('\\')[-1]  in noms_fichiers:
-                fichiers_conserves_2[key] = value
+        #On conserve soit tous les fichiers, soit uniquement ceux entrés dans le paramètre noms_fichiers
+        if noms_fichiers == 'all':
+            fichiers_conserves_2 = fichiers_conserves
+        else:
+            for key, value in fichiers_conserves.items():
+                if value.split('\\')[-1]  in noms_fichiers:
+                    fichiers_conserves_2[key] = value
 
         # retour pour la doctest
-        for key, value in fichiers_conserves_2.items():
-            print(value.split('\\')[-1:][0]) # le nom du fichier
-            print(value.split('\\')[-1:][0].split('.')[1]) #la date du fichier
+        # for key, value in fichiers_conserves_2.items():
+        #     print(value.split('\\')[-1:][0]) # le nom du fichier
+        #     print(value.split('\\')[-1:][0].split('.')[1]) #la date du fichier
 
         #Dossier où se trouve le fichier :
 
@@ -146,9 +154,10 @@ class ChargementCsv(Chargement):
             debut_nom = fichier.split('.')[0]
             date = fichier.split('.')[1]
             nom_donnees = debut_nom + "_" + date
-            print(nom_donnees)
+            # print(nom_donnees)
             globals()[nom_donnees] = Donnees(nom= fichier ,variables= variables, data= data)
-            print((globals()[nom_donnees]).nom)
+            globals()[nom_donnees].del_var(['']) #on supprime la dernière colonne qui est vide car c'était dans le CSV d'origine
+            # print((globals()[nom_donnees]))
 
 
             #message pour l'introduction de valeurs manquantes
