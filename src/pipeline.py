@@ -54,10 +54,11 @@ class Pipeline:
         self.etapes += autre_pipeline.etapes
 
     def execute(self):
+
         ''' execute l'ensemble des etapes'''
         for commande in self.etapes :
             commande.ope(self)
-        
+
 
 
 
