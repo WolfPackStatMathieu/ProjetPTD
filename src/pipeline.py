@@ -2,7 +2,6 @@
 
 from numpy import array
 from chargement.Donnees import Donnees
-from chargement.chargement_csv import ChargementCsv 
 from operation import Operation
 
 class Pipeline:
