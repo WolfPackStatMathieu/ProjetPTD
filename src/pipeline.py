@@ -32,25 +32,33 @@ class Pipeline:
         self.resultat = resultat
 
     def get_pip(self):
+        '''renvoie les etapes
+        '''
         print(self.etapes)
         return self.etapes
 
     def get_res(self):
+        ''' renvoie l'attribut resultat'''
         print(self.resultat)
         return self.resultat
 
     def add_ope(self,operation):
+        ''' ajoute une opération aux étapes'''
         self.etapes.append(operation)
 
     def del_ope(self):
+        ''' enleve la derniere operation aux etapes'''
         self.etapes.pop()
 
     def fus_pip(self, autre_pipeline):
+        ''' ajoute les etapes d'une autre pipeline apres les etapes de la pipeline'''
         self.etapes += autre_pipeline.etapes
 
     def execute(self):
+        ''' execute l'ensemble des etapes'''
         for commande in self.etapes :
             commande.ope(self)
+        
 
 
 
