@@ -1,5 +1,6 @@
 '''Module de chargement des donnees à partir d'un fichier cvs
 '''
+from msilib.schema import Error
 import os
 import gzip
 import csv
@@ -86,6 +87,8 @@ class ChargementCsv(Chargement):
             for key, value in fichiers_conserves.items():
                 if value.split('\\')[-1]  in noms_fichiers:
                     fichiers_conserves_2[key] = value
+                else:
+                    raise Exception("Un fichier demandé n'est pas dans le dossier sélectionné.")
 
         # retour pour la doctest
         # for key, value in fichiers_conserves_2.items():
@@ -172,15 +175,9 @@ class ChargementCsv(Chargement):
                       "création du jeu de données " f'{nom_donnees}')
             elif presence_na:
                 print("Attention: le jeu de données "f'{nom_donnees} ' "présente des valeurs manquantes")
-        
-    def ope(self. Pipeline):
-        self.
 
-
-
-
-
-
+    def ope(self, pipeline):
+        pass
 
 
 
