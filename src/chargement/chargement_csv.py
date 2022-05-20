@@ -4,7 +4,7 @@ import os
 import gzip
 import csv
 import sys
-from datetime import datetime
+from datetime import date, datetime
 
 from chargement import Chargement
 from Donnees import Donnees
@@ -47,11 +47,11 @@ class ChargementCsv(Chargement):
         >>> import os
         >>> from pathlib import Path
         >>> path = Path(os.getcwd()).parent.parent.absolute()
-        >>> chemin_dossier = path
+        >>> chemin_dossier = str(path) + "\\Fichiers de Données .csv.gz-20220405"
         >>> nom_fichier='synop.201301.csv.gz'
         >>> delimiteur = ';'
-        >>> chargement1 = ChargementCsv(chemin_dossier, nom_fichier, delimiteur, True)
-        synop.201301.csv.gz
+        >>> ChargementCsv(chemin_dossier, nom_fichier, delimiteur, True)
+
 
         """
         Chargement.__init__(self, chemin_dossier, noms_fichiers)
@@ -75,7 +75,8 @@ class ChargementCsv(Chargement):
 
         # retour pour la doctest
         for key, value in fichiers_conserves_2.items():
-            print(value.split('\\')[-1:][0])
+            print(value.split('\\')[-1:][0]) # le nom du fichier
+            print(value.split('\\')[-1:][0].split('.')[1]) #la date du fichier
 
         #Dossier où se trouve le fichier :
 
@@ -141,13 +142,22 @@ class ChargementCsv(Chargement):
                     introduction_nan = True #signale l'introduction de valeurs manquantes
 
 
-            #On construit un objet Donnees par fichier
-            Donnees(fichier , variables, data)
+            #On construit un objet Donnees par fichier qui prend en nom le début
+            debut_nom = fichier.split('.')[0]
+            date = fichier.split('.')[1]
+            nom_donnees = debut_nom + "_" + date
+            print(nom_donnees)
+            globals()[nom_donnees] = Donnees(nom= fichier ,variables= variables, data= data)
+            print((globals()[nom_donnees]).nom)
+
 
             #message pour l'introduction de valeurs manquantes
             if introduction_nan:
                 print("Attention: valeurs manquantes introduites lors de la"
-                      "création du jeu de données f'{}'")
+                      "création du jeu de données " f'{nom_donnees}')
+            elif presence_na:
+                print("Attention: le jeu de données "f'{nom_donnees} ' "présente des valeurs manquantes")
+
 
 
 
