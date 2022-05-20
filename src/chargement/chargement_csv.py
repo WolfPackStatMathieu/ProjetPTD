@@ -7,7 +7,7 @@ import sys
 from datetime import datetime
 
 from chargement import Chargement
-
+from Donnees import Donnees
 import numpy as np
 
 
@@ -79,7 +79,9 @@ class ChargementCsv(Chargement):
 
         #Dossier où se trouve le fichier :
 
+
         for fichier, chemin in fichiers_conserves_2.items():
+
             data = []
             presence_na = False
 
@@ -140,7 +142,14 @@ class ChargementCsv(Chargement):
 
 
             #On construit un objet Donnees par fichier
-            #Donnees(fichier , variables, data)
+            Donnees(fichier , variables, data)
+
+            #message pour l'introduction de valeurs manquantes
+            if introduction_nan:
+                print("Attention: valeurs manquantes introduites lors de la"
+                      "création du jeu de données f'{}'")
+
+
 
 
 
