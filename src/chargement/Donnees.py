@@ -258,7 +258,7 @@ class Donnees :
         '''      
 
         assert not nom in self.variables
-        ajout = np.full((self.data.shape[0],1),np.nan)
+        ajout = np.full((self.data.shape[0],1),np.nan, dtype= object )
         for i in range(self.data.shape[0]):
             x = []
             for p in parametres :
