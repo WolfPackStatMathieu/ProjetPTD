@@ -1,2 +1,0 @@
-import chargement
-import chargement_json
