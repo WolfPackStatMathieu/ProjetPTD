@@ -68,7 +68,7 @@ class ChargementCsv(Chargement):
         #On récupère la liste de TOUS les fichiers (avec le chemin absolu) contenus dans le
         # dossier donnés en paramètre
         fichiers_trouves = {}
-        for repertoire, sous_repertoire, fichiers in os.walk(sechemin_dossier):
+        for repertoire, sous_repertoire, fichiers in os.walk(self.chemin_dossier):
             for fichier in fichiers:
                 fichiers_trouves[fichier] = os.path.abspath(f"{repertoire}/{fichier}")
         fichiers_conserves = {}
@@ -78,12 +78,12 @@ class ChargementCsv(Chargement):
                 fichiers_conserves[key] = value
 
         fichiers_conserves_2 ={}
-        #On conserve soit tous les fichiers, soit uniquement ceux entrés dans le paramètre noms_fichiers
-        if noms_fichiers == 'all':
+        #On conserve soit tous les fichiers, soit uniquement ceux entrés dans le paramètre self.noms_fichiers
+        if self.noms_fichiers == 'all':
             fichiers_conserves_2 = fichiers_conserves
         else:
             for key, value in fichiers_conserves.items():
-                if value.split('\\')[-1]  in noms_fichiers:
+                if value.split('\\')[-1]  in self.noms_fichiers:
                     fichiers_conserves_2[key] = value
 
         # retour pour la doctest
@@ -101,7 +101,7 @@ class ChargementCsv(Chargement):
 
             with gzip.open(chemin, mode='rt') as gzfile :
                 #.readlines()[1:3] pour ne lire que les 3 premières lignes
-                synopreader = csv.reader(gzfile.readlines()[0:3], delimiter = delim)
+                synopreader = csv.reader(gzfile.readlines()[0:3], delimiter = self.delim)
                 for row in synopreader :
                     # début du traitement de chaque ligne
                     for i, value in enumerate(row): # on parcourt chaque ligne
@@ -171,9 +171,9 @@ class ChargementCsv(Chargement):
                       "création du jeu de données " f'{nom_donnees}')
             elif presence_na:
                 print("Attention: le jeu de données "f'{nom_donnees} ' "présente des valeurs manquantes")
-        
+
     def ope(self. Pipeline):
-        
+
 
 
 
