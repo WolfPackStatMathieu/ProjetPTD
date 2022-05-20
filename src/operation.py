@@ -1,3 +1,4 @@
+from pipeline import Pipeline
 from abc import ABC, abstractmethod
 
 class Operation(ABC):

@@ -3,7 +3,7 @@ from chargement.Donnees import Donnees
 from operation import Operation
 ''''''
 class Pipeline:
-    def __init__(self,etapes, resultat = Donnees([],array([]))) :
+    def __init__(self,etapes, resultat = Donnees('vide',[],[])) :
         self.etapes = etapes
         self.resultat = resultat
     
