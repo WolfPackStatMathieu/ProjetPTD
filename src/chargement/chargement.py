@@ -29,7 +29,8 @@ class Chargement(Operation):
 
         """
 
-
+    def charge(self):
+        ''' chargement des jeu de donnes dans l'environnemnt'''
 
     def ope(self):
         """opération abstraite

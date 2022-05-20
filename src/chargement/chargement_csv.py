@@ -26,7 +26,14 @@ class ChargementCsv(Chargement):
         vaut 'all' par défaut pour charger tous les fichiers de type csv
         présents dans le dossier d'archivage
     """
+
     def __init__(self, chemin_dossier, noms_fichiers = 'all', delim =';', header=True):
+        self.chemin_dossier = chemin_dossier
+        self.noms_fichiers = noms_fichiers
+        self.delim = delim
+        self.header = header
+
+    def charge(self):
         """crée un pipeline contenant le premier fichier du dossier, et crée aussi
         les Données de chacun des autres fichiers présents.
 
@@ -52,7 +59,7 @@ class ChargementCsv(Chargement):
         >>> chemin_dossier = str(path) + "\\Fichiers de Données .csv.gz-20220405"
         >>> nom_fichier='synop.201301.csv.gz'
         >>> delimiteur = ';'
-        >>> ChargementCsv(chemin_dossier, nom_fichier, delimiteur, True) # doctest:+ELLIPSIS
+        >>> ChargementCsv(chemin_dossier, nom_fichier, delimiteur, True).charge() # doctest:+ELLIPSIS
         Attention: le jeu de données synop_201301 présente des valeurs manquantes
         ...
 
