@@ -1,8 +1,32 @@
+'''module contenant la classe de la pipeline'''
+
 from numpy import array
 from chargement.Donnees import Donnees
+from chargement.chargement_csv import ChargementCsv 
 from operation import Operation
-''''''
+
 class Pipeline:
+    '''représente une pipeline
+
+    Parameters
+    ----------
+    etapes : list[Operations]
+        Liste des opérations à appliquer
+    resultat : Donnees
+        jeu de donnees sur lequel s'apllqiue les etapes
+
+    Attributes
+    ----------
+    etapes : list[Operations]
+        Liste des opérations à appliquer
+    resultat : Donnees
+        jeu de donnees sur lequel s'apllqiue les etapes
+
+    Examples
+    --------
+    >>> import numpy as np
+    >>> test = Pipeline([])
+    '''
     def __init__(self,etapes, resultat = Donnees('vide',[],[])) :
         self.etapes = etapes
         self.resultat = resultat
