@@ -93,6 +93,7 @@ class Donnees :
         '''renvoie la liste des variables
         '''
         print(self.variables)
+        return self.variables
 
     def __str__(self) :
         '''renvoie le tableau numpy du jeu de données sous format str

@@ -1,17 +1,13 @@
-'classe opération'
+'''module contenant la classe abstraite des opérations'''
+from pipeline import Pipeline
 from abc import ABC, abstractmethod
 
 class Operation(ABC):
     """classe abstraite Opération
-
-    Parameters
-    ----------
-    ABC : _type_
-        _description_
     """
     @abstractmethod
     def ope(self, pipeline):
-        """classe ope vide
+        """méthode ope vide
 
         Parameters
         ----------
