@@ -16,14 +16,14 @@ class Donnees :
 
     Attributes
     ----------
+    nom: str
+        nom du jeu de données
     variables : list[str]
         Liste des noms de variables
     data : np.array
         donnees du jeu de donnees converties en array
     var_types : list[type]
         liste des types des variables
-    nom: str
-        nom du jeu de données
 
     Examples
     --------
@@ -40,7 +40,7 @@ class Donnees :
 
     def get_var(self, nom_variable):
         '''Renvoie l'indice de la variable en entrée
-        
+
         Parameters
         ----------
         nom_variable : str
@@ -62,10 +62,10 @@ class Donnees :
             if self.variables[i] == nom_variable :
                 return i
         raise Exception("variable inconnue au bataillon")
-        
+
     def var_type(self, nom_variable):
         '''Renvoie le type de la variable en entrée
-        
+
         Parameters
         ----------
         nom_variable : str
@@ -82,13 +82,13 @@ class Donnees :
         >>> test = Donnees('nom',['nom', 'valeur'],[['a',1], ['b', 5 ], ['c',9]])
         >>> test.var_type('valeur')
         <class 'int'>
-        '''        
+        '''
         i = self.get_var(nom_variable)
         for k in range(self.data.shape[0]):
             if self.data[k,i] != np.nan:
                 return type(self.data[k,i])
         return np.nan
-            
+
     def list_var(self) :
         '''renvoie la liste des variables
         '''
@@ -99,10 +99,10 @@ class Donnees :
         '''renvoie le tableau numpy du jeu de données sous format str
         '''
         return np.array2string(self.data)
-    
+
     def add_var(self, variable_sups, donnees_sups):
         '''ajoute une liste de variable a un jeu de données
-        
+
         Parameters
         ----------
         variables_sups : list[str]
@@ -128,10 +128,10 @@ class Donnees :
                 self.var_types.append(self.var_type(v))
         else:
             raise Exception("dimension non compatible")
-        
+
     def del_var(self, variables_to_del):
         '''enleve une liste de variable a un jeu de données
-        
+
         Parameters
         ----------
         variables_sups : list[str]
@@ -152,7 +152,7 @@ class Donnees :
             self.variables.pop(i)
             self.var_types.pop(i)
             self.data = np.delete(self.data,i ,1)
-    
+
     def var_num(self):
         '''enleve les variable non numériques du jeu de données
 
@@ -169,10 +169,10 @@ class Donnees :
         for v in self.variables:
             if self.var_type(v) != int and self.var_type(v) != float :
                 self.del_var([v])
-    
+
     def concat(self, autres_donnees):
         '''concatène 2 jeu de données selon les variables de l'objet de la méthode
-        
+
         Parameters
         ----------
         autres_donnees : Donnees
@@ -192,18 +192,18 @@ class Donnees :
          ['e' 50]
          ['f' 90]
          ['z' 100]]
-        '''      
+        '''
         assert len(self.variables) >= len(autres_donnees.variables)
         permutation = np.full((autres_donnees.data.shape[0], self.data.shape[1]), np.nan, dtype= object)
         for v in self.variables :
             if v in autres_donnees.variables :
                 permutation[:,self.get_var(v)] = autres_donnees.data[:,autres_donnees.get_var(v)]
         self.data = np.concatenate((self.data,permutation), axis = 0)
-        
+
     def filtre(self,parametres, test_filtre, keep_na = False):
         '''filtre les lignes du jeu de donnees selon une fonction booleenne a partir d'un jeu de parametres
         pris parmis les variables, keep_na determine si on garde la ligne lorsque qu'un des parametres manque
-        
+
         Parameters
         ----------
         parametres : list[str]
@@ -212,7 +212,7 @@ class Donnees :
             fonction qui renvoit un booleen, utiliser de préférence une lambda function
         keep_na : bool
             décide si on garde les lignes où un des paramètres manque
-        
+
         Examples
         --------
         >>> import numpy as np
@@ -222,7 +222,7 @@ class Donnees :
         [['e' 50]
          ['f' 90]
          ['z' 100]]
-        '''      
+        '''
         # on utilise un compteur pour éviter les problèmes d'index après suppresion de ligne
         # lors du parcours
         i=0
@@ -237,7 +237,7 @@ class Donnees :
 
     def transform(self,nom, parametres, transformation):
         '''crée une nouvelle variable et ajoute une colonne au jeu de données composée des valeur qu'on a calculé
-        
+
         Parameters
         ----------
         parametres : list[str]
@@ -246,7 +246,7 @@ class Donnees :
             fonction qui renvoit la valeur de la nouvelle variable pour cette ligne
         nom : str
             nom de la nouvelle variable
-        
+
         Examples
         --------
         >>> import numpy as np
@@ -256,7 +256,7 @@ class Donnees :
         [['e' 50 52]
          ['f' 90 92]
          ['z' 100 102]]
-        '''      
+        '''
 
         assert not nom in self.variables
         ajout = np.full((self.data.shape[0],1),np.nan, dtype= object )
