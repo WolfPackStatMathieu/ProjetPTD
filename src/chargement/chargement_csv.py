@@ -68,7 +68,7 @@ class ChargementCsv(Chargement):
         #On récupère la liste de TOUS les fichiers (avec le chemin absolu) contenus dans le
         # dossier donnés en paramètre
         fichiers_trouves = {}
-        for repertoire, sous_repertoire, fichiers in os.walk(self.chemin_dossier):
+        for repertoire, sous_repertoire, fichiers in os.walk(sechemin_dossier):
             for fichier in fichiers:
                 fichiers_trouves[fichier] = os.path.abspath(f"{repertoire}/{fichier}")
         fichiers_conserves = {}
