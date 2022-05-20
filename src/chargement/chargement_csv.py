@@ -6,9 +6,9 @@ import csv
 import sys
 from datetime import datetime
 
-from Donnees import Donnees
-import numpy as np
 from chargement import Chargement
+
+import numpy as np
 
 
 class ChargementCsv(Chargement):
@@ -140,7 +140,7 @@ class ChargementCsv(Chargement):
 
 
             #On construit un objet Donnees par fichier
-            Donnees(fichier , variables, data)
+            #Donnees(fichier , variables, data)
 
 
 
