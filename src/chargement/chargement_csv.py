@@ -5,7 +5,6 @@ import gzip
 import csv
 import sys
 from datetime import date, datetime
-
 from chargement import Chargement
 from Donnees import Donnees
 import numpy as np
@@ -64,13 +63,12 @@ class ChargementCsv(Chargement):
         ...
 
         """
-        Chargement.__init__(self, chemin_dossier, noms_fichiers)
         #le nom du dossier sans l'extension
         #nom_du_dossier = chemin_dossier.split('\\')[-1].split('.')[0]
         #On récupère la liste de TOUS les fichiers (avec le chemin absolu) contenus dans le
         # dossier donnés en paramètre
         fichiers_trouves = {}
-        for repertoire, sous_repertoire, fichiers in os.walk(chemin_dossier):
+        for repertoire, sous_repertoire, fichiers in os.walk(self.chemin_dossier):
             for fichier in fichiers:
                 fichiers_trouves[fichier] = os.path.abspath(f"{repertoire}/{fichier}")
         fichiers_conserves = {}
@@ -125,7 +123,7 @@ class ChargementCsv(Chargement):
             nb_variables = max(len(row) for row in data)
 
 
-            if header: #Si le fichier fourni contient les noms de variables
+            if self.header: #Si le fichier fourni contient les noms de variables
                 #On met à part les noms des variables
                 variables = data.pop(0)
                 #print(variables)
@@ -173,6 +171,9 @@ class ChargementCsv(Chargement):
                       "création du jeu de données " f'{nom_donnees}')
             elif presence_na:
                 print("Attention: le jeu de données "f'{nom_donnees} ' "présente des valeurs manquantes")
+        
+    def ope(self. Pipeline):
+        
 
 
 
