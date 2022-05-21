@@ -76,6 +76,7 @@ class ChargementCsv(Chargement):
         for key, value in fichiers_trouves.items():
             #Si le nom de fichier a une extension 'csv.gz' on le garde
             if value.split('\\')[-1].split('.')[-2:] == ['csv', 'gz']:
+
                 fichiers_conserves[key] = value
 
         fichiers_conserves_2 ={}
@@ -162,7 +163,7 @@ class ChargementCsv(Chargement):
             debut_nom = fichier.split('.')[0]
             date = fichier.split('.')[1]
             nom_donnees = debut_nom + "_" + date
-            # print(nom_donnees)
+            print("jeu de Données créé : " +  nom_donnees)
             globals()[nom_donnees] = Donnees(nom= fichier ,variables= variables, data= data)
             globals()[nom_donnees].del_var(['']) #on supprime la dernière colonne qui est vide car c'était dans le CSV d'origine
             # print((globals()[nom_donnees]))
@@ -176,7 +177,29 @@ class ChargementCsv(Chargement):
                 print("Attention: le jeu de données "f'{nom_donnees} ' "présente des valeurs manquantes")
 
     def ope(self, pipeline):
-        pass
+        """prend une pipeline et ne renvoie rien
+
+        Examples
+        --------
+        >>> import os
+        >>> from pathlib import Path
+        >>> path = Path(os.getcwd()).parent.parent.absolute()
+        >>> chemin_dossier = str(path) + "\\Fichiers de Données .csv.gz-20220405"
+        >>> nom_fichier=['synop.201301.csv.gz']
+        >>> delimiteur = ';'
+        >>> pipeline1 = Pipeline([ChargementCsv(chemin_dossier, nom_fichier, delimiteur, True)]) # doctest:+ELLIPSIS
+        Attention: le jeu de données synop_201301 présente des valeurs manquantes
+        >>> pipeline.execute()
+
+        """
+
+
+        if self.noms_fichiers == 'all':
+            raise Exception("Vous n'avez pas spécifié de Données à charger.")
+        else:
+            self.charge()
+            jeu_de_donnees = globals()[self.noms_fichiers[0]]
+            pipeline.resultat = jeu_de_donnees
 
 
 
