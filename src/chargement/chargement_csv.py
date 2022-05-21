@@ -64,13 +64,12 @@ class ChargementCsv(Chargement):
         ...
 
         """
-        Chargement.__init__(self, chemin_dossier, noms_fichiers)
         #le nom du dossier sans l'extension
         #nom_du_dossier = chemin_dossier.split('\\')[-1].split('.')[0]
         #On récupère la liste de TOUS les fichiers (avec le chemin absolu) contenus dans le
         # dossier donnés en paramètre
         fichiers_trouves = {}
-        for repertoire, sous_repertoire, fichiers in os.walk(chemin_dossier):
+        for repertoire, sous_repertoire, fichiers in os.walk(self.chemin_dossier):
             for fichier in fichiers:
                 fichiers_trouves[fichier] = os.path.abspath(f"{repertoire}/{fichier}")
         fichiers_conserves = {}
@@ -82,7 +81,7 @@ class ChargementCsv(Chargement):
 
         fichiers_conserves_2 ={}
         #On conserve soit tous les fichiers, soit uniquement ceux entrés dans le paramètre noms_fichiers
-        if noms_fichiers == 'all':
+        if self.noms_fichiers == 'all':
             fichiers_conserves_2 = fichiers_conserves
         else:
             for key, value in fichiers_conserves.items():
@@ -106,7 +105,7 @@ class ChargementCsv(Chargement):
 
             with gzip.open(chemin, mode='rt') as gzfile :
                 #.readlines()[1:3] pour ne lire que les 3 premières lignes
-                synopreader = csv.reader(gzfile.readlines()[0:3], delimiter = delim)
+                synopreader = csv.reader(gzfile.readlines()[0:3], delimiter = self.delim)
                 for row in synopreader :
                     # début du traitement de chaque ligne
                     for i, value in enumerate(row): # on parcourt chaque ligne
@@ -128,7 +127,7 @@ class ChargementCsv(Chargement):
             nb_variables = max(len(row) for row in data)
 
 
-            if header: #Si le fichier fourni contient les noms de variables
+            if self.header: #Si le fichier fourni contient les noms de variables
                 #On met à part les noms des variables
                 variables = data.pop(0)
                 #print(variables)
