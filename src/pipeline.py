@@ -2,6 +2,7 @@
 
 from numpy import array
 from operation import Operation
+from chargement.Donnees import Donnees
 
 class Pipeline:
     '''représente une pipeline
