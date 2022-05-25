@@ -1,7 +1,6 @@
 '''module contenant la classe de la pipeline'''
 
 from numpy import array
-import operation
 from package_chargement.Donnees import Donnees
 
 class Pipeline:
