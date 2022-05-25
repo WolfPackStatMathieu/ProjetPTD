@@ -2,7 +2,7 @@
 
 from numpy import array
 # import operation
-from src.donnees  import Donnees
+from src.Donnees  import Donnees
 
 class Pipeline:
     '''représente une pipeline

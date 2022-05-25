@@ -6,8 +6,8 @@ import gzip
 import csv
 import sys
 from datetime import date, datetime
-from chargement import Chargement
-from Donnees import Donnees
+# from src.package_chargement import Chargement
+from src.Donnees import Donnees
 import numpy as np
 
 
