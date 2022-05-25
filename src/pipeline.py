@@ -1,7 +1,6 @@
 '''module contenant la classe de la pipeline'''
 
-from numpy import array
-from package_chargement.Donnees import Donnees
+import Donnees
 
 class Pipeline:
     '''représente une pipeline
