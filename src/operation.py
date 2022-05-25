@@ -1,6 +1,7 @@
 '''module contenant la classe abstraite des opérations'''
 
 from abc import ABC, abstractmethod
+from pipeline import Pipeline
 
 class Operation(ABC):
     """classe abstraite Opération

@@ -1,4 +1,4 @@
-from operation import Operation
+from affichage import Affichage
 
-class Aggreg(Operation):
+class Aggreg(Affichage):
     pass

@@ -1,4 +1,4 @@
-from operation import Operation
+from estimation import Estimation
 
-class Aggreg(Operation):
+class Aggreg(Estimation):
     pass

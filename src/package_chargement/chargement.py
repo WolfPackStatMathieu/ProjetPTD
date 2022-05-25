@@ -7,7 +7,7 @@ currentdir = os.path.dirname(os.path.realpath("chargement.py"))
 parentdir = os.path.dirname(currentdir)
 sys.path.append(parentdir)
 
-from src.operation  import Operation
+from operation  import Operation
 
 class Chargement(Operation):
     ''' Classe abstraite pour charger les données

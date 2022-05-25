@@ -1,5 +1,6 @@
 import gzip
 import json
+from chargement import Chargement
 
 #Dossier où se trouve le fichier :
 folder = r"C:\\Users\\mathi\\Documents\\Ensai\\Projet Traitement de Données\\PTD\\"
@@ -12,4 +13,5 @@ with gzip.open(folder + filename, 'rb') as f:
     one_line = json.loads(line)
     print(one_line)
 
-class Chargement_json
+class Chargement_json(Chargement):
+    pass

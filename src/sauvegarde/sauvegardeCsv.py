@@ -1,4 +1,4 @@
-from operation import Operation
+from sauvegarde import Sauvegarde
 
-class Sauvegarde(Operation):
+class SauvegardeCsv(Sauvegarde):
     pass
