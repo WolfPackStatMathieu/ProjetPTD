@@ -1,5 +1,5 @@
 '''module de selection des variables'''
-from src.transformation.transformation import Transformation
+from transformation.transformation import Transformation
 
 class Selection__var(Transformation):
 
@@ -7,4 +7,4 @@ class Selection__var(Transformation):
         self.selection = selection
     
     def ope(pipeline):
-        
+        pass
