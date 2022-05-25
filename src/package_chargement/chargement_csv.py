@@ -6,7 +6,7 @@ import gzip
 import csv
 import sys
 from datetime import date, datetime
-from package_chargement import Chargement
+from package_chargement.chargement import Chargement
 import numpy as np
 
 
