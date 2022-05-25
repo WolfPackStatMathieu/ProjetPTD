@@ -6,15 +6,15 @@ import gzip
 import csv
 import sys
 from datetime import date, datetime
-from chargement import Chargement
-from Donnees import Donnees
+
 import numpy as np
+
 
 
 class ChargementCsv(Chargement):
     """Permet le chargement de jeux de données à partir d'un dossier
     archivant des fichiers csv.
-
+s
     Ce module charge en mémoire autant de jeux de Données que de fichiers csv.gz et
 
     Parameters
@@ -189,7 +189,7 @@ class ChargementCsv(Chargement):
         >>> delimiteur = ';'
         >>> pipeline1 = Pipeline([ChargementCsv(chemin_dossier, nom_fichier, delimiteur, True)]) # doctest:+ELLIPSIS
         Attention: le jeu de données synop_201301 présente des valeurs manquantes
-        >>> pipeline.execute()
+
 
         """
 
