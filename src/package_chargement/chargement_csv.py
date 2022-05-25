@@ -8,6 +8,7 @@ import sys
 from datetime import date, datetime
 from package_chargement.chargement import Chargement
 import numpy as np
+from 
 
 
 class ChargementCsv(Chargement):
@@ -84,7 +85,7 @@ class ChargementCsv(Chargement):
             fichiers_conserves_2 = fichiers_conserves
         else:
             for key, value in fichiers_conserves.items():
-                if value.split('\\')[-1]  in noms_fichiers:
+                if value.split('\\')[-1]  in self.noms_fichiers:
                     fichiers_conserves_2[key] = value
                 else:
                     raise Exception("Un fichier demandé n'est pas dans le dossier sélectionné.")

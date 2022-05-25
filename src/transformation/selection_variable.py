@@ -1,5 +1,5 @@
 '''module de selection des variables'''
-from transformation.transformation import Transformation
+from transformation import Transformation
 
 class Selection__var(Transformation):
 

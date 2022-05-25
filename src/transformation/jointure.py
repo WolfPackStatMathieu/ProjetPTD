@@ -1,7 +1,7 @@
 '''module pour joindre un jeu de donnes avec un autre'''
 from src.pipeline import Pipeline
 from transformation import Transformation
-
+from transformation import Transformation
 class Jointure(Transformation):
     '''classe d'opération permettant de joindre des jeux de donnees'''
     def __init__(self,autre_donnees, keys ): 
@@ -17,5 +17,5 @@ class Jointure(Transformation):
             else : 
                 variables_suppl.append(v)
         
-        
+
         
