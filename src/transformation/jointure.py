@@ -8,5 +8,5 @@ class Jointure(Transformation):
         self.keys = keys
     
     def ope(pipeline):
-        
+        pass
     
