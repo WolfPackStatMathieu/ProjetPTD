@@ -1,6 +1,12 @@
 '''module contenant la classe de la pipeline'''
 
+<<<<<<< HEAD
 import Donnees
+=======
+from numpy import array
+# import operation
+from src.donnees  import Donnees
+>>>>>>> b66e96b7e9d51c05eeee257b42c5fc37d4caaed6
 
 class Pipeline:
     '''représente une pipeline
