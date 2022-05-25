@@ -1,5 +1,5 @@
 '''classe abstraite transformation'''
-from operation import Operation
+from transformation import Transformation
 class Transformation(Operation):
     '''classe abstraite des transformations'''
     pass
