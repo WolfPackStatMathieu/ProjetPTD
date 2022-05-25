@@ -1,12 +1,8 @@
 '''module contenant la classe de la pipeline'''
 
-<<<<<<< HEAD
-import Donnees
-=======
 from numpy import array
 # import operation
 from src.donnees  import Donnees
->>>>>>> b66e96b7e9d51c05eeee257b42c5fc37d4caaed6
 
 class Pipeline:
     '''représente une pipeline
@@ -23,7 +19,7 @@ class Pipeline:
     etapes : list[Operations]
         Liste des opérations à appliquer
     resultat : Donnees
-        jeu de donnees sur lequel s'apllqiue les etapes
+        jeu de donnees sur lequel s'appliquent les etapes
 
     Examples
     --------
