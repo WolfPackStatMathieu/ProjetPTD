@@ -1,6 +1,13 @@
 from transformation import Transformation
+from src.pipeline import Pipeline
 
 class Fenetrage(Transformation):
 
-    def __init__(self, ) -> None:
-        super().__init__()
+    def __init__(self,debut, fin, time_var,echantillon = "keep", ):
+        self.debut = debut
+        self.fin = fin
+        self.time_var = time_var
+        self.echantillon = echantillon
+    
+    def ope(self, pipeline : Pipeline):
+        pipeline.resultat.filtre([self.time_var], lambda x : self.debut <= x[0] <= self.fin)
