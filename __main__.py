@@ -3,7 +3,7 @@
 import os
 from pathlib import Path
 
-from src.Donnees import Donnees
+from src.donnees import Donnees
 from src.pipeline import Pipeline
 from src.operation import Operation
 from src.package_chargement.chargement import Chargement
