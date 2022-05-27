@@ -59,9 +59,7 @@ class ChargementCsv(Chargement):
         >>> chemin_dossier = str(path) + "\\Fichiers de Données .csv.gz-20220405"
         >>> nom_fichier='synop.201301.csv.gz'
         >>> delimiteur = ';'
-        >>> ChargementCsv(chemin_dossier, nom_fichier, delimiteur, True).charge() # doctest:+ELLIPSIS
-        Attention: le jeu de données synop_201301 présente des valeurs manquantes
-        ...
+        >>> ChargementCsv(chemin_dossier, nom_fichier, delimiteur, True).charge()
 
         """
         #le nom du dossier sans l'extension
@@ -187,9 +185,11 @@ class ChargementCsv(Chargement):
         >>> chemin_dossier = str(path) + "\\Fichiers de Données .csv.gz-20220405"
         >>> nom_fichier=['synop.201301.csv.gz']
         >>> delimiteur = ';'
+        >>> from src.pipeline import Pipeline
         >>> pipeline1 = Pipeline([ChargementCsv(chemin_dossier, nom_fichier, delimiteur, True)]) # doctest:+ELLIPSIS
-        Attention: le jeu de données synop_201301 présente des valeurs manquantes
-        >>> pipeline.execute()
+        >>> isinstance(pipeline1, Pipeline)
+        True
+
 
         """
 
@@ -206,4 +206,4 @@ class ChargementCsv(Chargement):
 
 if __name__ == '__main__':
     import doctest
-    doctest.testmod(verbose = False)
+    doctest.testmod(verbose = True)
