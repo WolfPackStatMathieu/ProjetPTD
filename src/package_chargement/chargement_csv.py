@@ -26,6 +26,11 @@ class ChargementCsv(Chargement):
         liste des noms de fichiers à charger
         vaut 'all' par défaut pour charger tous les fichiers de type csv
         présents dans le dossier d'archivage
+     delim : str
+            Caractère séparant les colonnes, vaut ';' par défaut
+    header : bool, optionnel
+        vaut True si la première ligne contient le nom des variables, par défaut True
+
     """
 
     def __init__(self, chemin_dossier, noms_fichiers = 'all', delim =';', header=True):
