@@ -1,6 +1,7 @@
 import os
 import gzip
 import json
+import numpy as np
 from src.package_chargement.chargement import Chargement
 
 #Dossier où se trouve le fichier :
@@ -27,7 +28,7 @@ class ChargementJson(Chargement):
             chemin du dossier où sont situés les fichiers à charger
     noms_fichiers : list[str]
         liste des noms de fichiers à charger
-        vaut 'all' par défaut pour charger tous les fichiers de type csv
+        vaut ['all'] par défaut pour charger tous les fichiers de type csv
         présents dans le dossier d'archivage
      delim : str
             Caractère séparant les colonnes, vaut ';' par défaut
@@ -61,7 +62,7 @@ class ChargementJson(Chargement):
         chemin_dossier : str
             chemin du dossier où sont situés les fichiers à charger
         noms_fichiers : list[str]
-            vaut 'all' par défaut pour charger tous les fichiers de type csv
+            vaut ['all'] par défaut pour charger tous les fichiers de type csv
         présents dans le dossier d'archivage
         delim : str, optional
             Caractère séparant les colonnes, by default ';'
@@ -129,14 +130,15 @@ class ChargementJson(Chargement):
 
         fichiers_conserves_2 ={}
         #On conserve soit tous les fichiers, soit uniquement ceux entrés dans le paramètre noms_fichiers
-        if self.noms_fichiers == 'all':
+        if self.noms_fichiers == ['all']:
             fichiers_conserves_2 = fichiers_conserves #on conserve tous les fichiers
         else:
             # On vérifie que tous les fichiers demandés sont présents dans le dossier sélectionné
             liste_fichiers_conserves = [value.split('\\')[-1] for key, value in fichiers_conserves.items()] #liste des fichiers conservés
             for fichier_demande in self.noms_fichiers: #on parcourt la liste des fichiers demandés
                     if fichier_demande not in liste_fichiers_conserves: # si le fichier demandé n'est pas dans la liste des fichiers du dossier
-                        raise Exception("Un fichier demandé n'est pas dans le dossier sélectionné.")
+                        if fichier_demande != ['all']:
+                            raise Exception("Un fichier demandé n'est pas dans le dossier sélectionné.")
             # on garde uniquement les fichiers demandés parmi l'ensemble des fichiers conservés
             for key, value in fichiers_conserves.items():
                 nom_du_fichier_conserve = value.split('\\')[-1]
@@ -144,23 +146,70 @@ class ChargementJson(Chargement):
                     fichiers_conserves_2[key] = value #alors on l'ajoute au dictionnaire
 
         # retour pour la doctest
-        for key, value in fichiers_conserves_2.items():
-            print(value.split('\\')[-1:][0]) # le nom du fichier
-            print(value.split('\\')[-1:][0].split('.')[0]) #la date du fichier
+        # for key, value in fichiers_conserves_2.items():
+        #     print(value.split('\\')[-1:][0]) # le nom du fichier
+        #     print(value.split('\\')[-1:][0].split('.')[0]) #la date du fichier
+
+
+        for fichier, chemin in fichiers_conserves_2.items():
+
+            #On crée un jeu de données pour chaque fichier
+            donnees = [] #pour récupérer les données qui iront dans le
+            #constructeur de Donnees
+            presence_na = False # indique la présence de données manquantes
+            with gzip.open(chemin) as gzfile:
+                data = json.load(gzfile)
+                # print("data est de type : " + str(type(data)))
+                #On va récupérer la liste des variables du fichier
+                variables_dict = [] # les données qui nous intéressent
+                variables = [] # Les clés de chaque ligne de data
+                cle_dict = [] # les clés qui sont également des dictionnaires
+
+                # Chaque ligne de data est un dictionnaire
+                # On itère pour récupérer les clés
+                for row in data:
+                    for cle in row.keys():
+                        if cle not in variables and not isinstance(row[cle], dict):
+                            variables.append(cle)
+                        # On sait qu'une seule des clés ("fields") est en fait elle-même un
+                        # dictionnaire et contient les données
+                        if isinstance(row[cle], dict):
+                            for cle_dict in row[cle].keys():
+                                if cle_dict not in variables_dict:
+                                    variables_dict.append(cle_dict)
+                # On recommence à itérer sur les lignes pour obtenir les données
+                # print(variables_dict)
+                # print(variables)
+                variables += variables_dict # Concaténation de toutes les variables qui ont une valeur unique (pas un dictionnaire derrière)
+                # print("variables :"+ str(variables))
+
+                donnees_fichier = np.array(variables, dtype=object) # la première ligne est constituée des variables du fichier
+                # print(donnees_fichier)
+                # print([donnees_fichier[i] for i in range(0,np.shape(donnees_fichier)[0])])
+                for row in data[:2]: # On parcourt chaque ligne de data
+                    for cle in row.keys(): # on parcourt chaque clé
+                        if isinstance(row[cle], dict):
+                            result = row[cle].items()
+                            tableau_ligne = list(result)
+                             #On transpose le tableau pour obtenir la liste des variables et celle des valeurs de la row
+                            tableau_ligne = np.array(tableau_ligne, dtype=object)
+                            tableau_ligne = np.transpose(tableau_ligne)
+                            variables_ligne = list(tableau_ligne[0])
+                            data_ligne = list(tableau_ligne[1])
+                            ligne_complete = [np.nan for i in enumerate(variables)]
+
+                            for i, variable in enumerate(variables):
+                                if variable in variables_ligne:
+                                    #index de la variable dans la ligne de variables complète
+                                    index_variable = variables_ligne.index(variable)
+                                    # on récupère sa valeur et on la place au bon endroit dans la ligne_complete
+                                    ligne_complete[index_variable] = data_ligne[index_variable]
+                            print(ligne_complete)
 
 
 
 
-
-        # folder = r"C:\\Users\\mathi\\Documents\\Ensai\\Projet Traitement de Données\\PTD\\"
-        # filename = "2013-01.json.gz"
-        # with gzip.open(folder + filename, mode = 'rt') as gzfile :
-        #     data = json.load(gzfile)
-
-        # with gzip.open(folder + filename, 'rb') as f:
-        #     line = f.readline()
-        #     one_line = json.loads(line)
-        #     print(one_line)
+# variables =['datasetid', 'recordid', 'fields', 'code_insee_region', 'date', 'region', 'date_heure', 'heure', 'record_timestamp', 'consommation_brute_gaz_terega', 'statut_terega', 'consommation_brute_electricite_rte', 'statut_rte', 'consommation_brute_gaz_grtgaz', 'consommation_brute_totale', 'consommation_brute_gaz_totale', 'statut_grtgaz']
 
 if __name__ == '__main__':
     import doctest
