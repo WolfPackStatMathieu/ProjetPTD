@@ -1,4 +1,4 @@
-from src.Donnees import Donnees
+from src.donnees import Donnees
 from src.pipeline import Pipeline
 from transformation import Transformation
 import numpy as np
@@ -14,8 +14,14 @@ class Moyenne_Glissante(Transformation):
         i = 0
         def glissante(var):
             if i < self.pas or i > pipeline.resultat.data.shape[0] - self.pas - 1 :
-                
+                i+=1
                 return np.nan
             else:
-                return Moyenne([var]).ope(pipeline)
+                j = pipeline.resultat.get_var(var)
+                suite=[pipeline.resultat.data[i - self.pas + k ][j] for k in range(2 * self.pas +1)]
+                i+=1
+                return sum(suite)/len(suite)
         
+        for v in self.variables:
+            i = 0
+            pipeline.resultat.transform(v +'_gliss',[v],glissante(v))
