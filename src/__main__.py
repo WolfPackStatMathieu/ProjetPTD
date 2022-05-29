@@ -64,7 +64,7 @@ nom2 = ["postesSynopAvecRegions.csv.gz"]
 ##### 2 on crée les données
 path = Path(os.getcwd()).absolute()
 cheminDossier = str(path) + "\\fichiers stations et régions"
-print(cheminDossier)
+# print(cheminDossier)
 nom_fichier=['postesSynopAvecRegions.csv.gz']
 delimiteur = ';'
 
