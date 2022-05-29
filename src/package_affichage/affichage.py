@@ -1,4 +1,13 @@
-from operation import Operation
+from src.operation import Operation
 
 class Affichage(Operation):
-    pass
+    """classe représentant l'affichage graphique des données
+
+    Attributes
+    ----------
+    variables : list[]
+        liste des variables dont on veut afficher le résultat
+    """
+
+    def op():
+        pass
