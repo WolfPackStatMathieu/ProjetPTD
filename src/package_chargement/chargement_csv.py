@@ -226,6 +226,7 @@ class ChargementCsv(Chargement):
         >>> from src.pipeline import Pipeline
         >>> pipeline1 = Pipeline([ChargementCsv(chemin_dossier, nom_fichier, delimiteur, True)]) # doctest:+ELLIPSIS
         >>> isinstance(pipeline1, Pipeline)
+
         True
 
 
@@ -237,7 +238,12 @@ class ChargementCsv(Chargement):
             raise Exception("Vous n'avez pas spécifié de Données à charger.")
         else:
             self.charge()
-            jeu_de_donnees = globals()[self.noms_fichiers[0]]
+            jeu_de_donnees = self.noms_fichiers[0]
+            jeu_de_donnees = jeu_de_donnees.split(".")
+            debut_nom = jeu_de_donnees[0]
+            date_fichier = jeu_de_donnees[1]
+            nom_donnees = debut_nom + "_" + date_fichier
+            jeu_de_donnees = globals()[nom_donnees]
             pipeline.resultat = jeu_de_donnees
 
 
@@ -247,9 +253,9 @@ class ChargementCsv(Chargement):
 if __name__ == '__main__':
     import doctest
     doctest.testmod(verbose = False)
-    print(globals().keys())
-    print([[Donnees.data ]for Donnees in globals()['INVENTAIRE_CSV']])
-    print([[Donnees.variables ]for Donnees in globals()['INVENTAIRE_CSV']])
+    # print(globals().keys())
+    # print([[Donnees.data ]for Donnees in globals()['INVENTAIRE_CSV']])
+    # print([[Donnees.variables ]for Donnees in globals()['INVENTAIRE_CSV']])
 
 
 
