@@ -27,7 +27,7 @@ INVENTAIRE_CSV = []
 # ChargementCsv("test")
 path = Path(os.getcwd()).absolute()
 CheminDossier = str(path) + "\\Fichiers de Données .csv.gz-20220405"
-nom_fichier=['synop.202203.csv.gz']
+nom_fichier=['synop.201902.csv.gz']
 Delimiteur = ';'
 
 # Inventaire_CSV = ChargementCsv(CheminDossier, nom_fichier, Delimiteur, True).charge()
@@ -42,9 +42,11 @@ folder_json=str(path) + '\\Fichiers de Données .json.gz-20220405'
 file_name_csv=['synop.201301.csv.gz', 'synop.201302.csv.gz']
 file_name_json=['2013-01.json.gz', '2013-02.json.gz']
 
-question_1=Pipeline([ChargementJson(folder_json,file_name_json),ChargementCsv(folder_csv,file_name_csv),Concatenation(file_name_csv[1:]), Aggregation('numer_sta'),Jointure(Pipeline([Concatenation(file_name_json[1:]),file_name_json[0]]).get_res,'keys'), Nuage_points('vars')])
+question1=Pipeline([ChargementJson(folder_json,file_name_json),ChargementCsv(folder_csv,file_name_csv),Concatenation(file_name_csv[1:]), Aggregation('numer_sta'),Jointure(Pipeline([Concatenation(file_name_json[1:]),file_name_json[0]]).get_res,'code_insee_region'), Nuage_points(['temperature', 'consommation_brute_electricite_rte'])])
+# Nuage_points(['temperature', 'consommation_brute_electricite_rte']).ope(question1).get_res()
+reponse_1 = question1.resultat
+print(reponse_1.variables)
 
-reponse_1=question_1.get_res()
 
 question_2=Pipeline([Nuage_points('vars')],reponse_1)
 
