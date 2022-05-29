@@ -54,6 +54,27 @@ class SauvegardeCsv(Sauvegarde):
         >>> isinstance(mon_pipeline.resultat.data, np.ndarray)
         True
         >>> mon_pipeline.execute()
+        >>> nom2 = "synop.201301_csv"
+        >>> chemin_dossier = str(Path(os.getcwd()).absolute()) + "\\Fichiers de Données .csv.gz-20220405"
+        >>> print(chemin_dossier)
+        >>> nom_fichier=['synop.201301.csv.gz']
+        >>> delimiteur = ';'
+        >>> from src.package_chargement.chargement_csv import ChargementCsv
+        >>> ChargementCsv(chemin_dossier, nom_fichier, delimiteur, True).charge()
+        jeu de Données créé : synop_201301
+        Attention: le jeu de données synop_201301 présente des valeurs manquantes
+        >>> import os
+        >>> from pathlib import Path
+        >>> path = Path(os.getcwd()).parent.parent.absolute()
+        >>> chemin_dossier = str(path) + "\\Fichiers de Données .csv.gz-20220405"
+        >>> nom_fichier=['synop.201301.csv.gz']
+        >>> delimiteur = ';'
+        >>> from src.pipeline import Pipeline
+        >>> pipeline1 = Pipeline([ChargementCsv(chemin_dossier, nom_fichier, delimiteur, True)], 'synop_201301')
+        >>> pipeline1.add_ope(SauvegardeCsv(chemin, nom2))
+        >>> pipeline1.execute()
+
+
 
 
         """
@@ -65,4 +86,5 @@ if __name__ == '__main__':
     #Test des exemples de la documentation
     import doctest
     doctest.testmod(verbose=False)
+    print(globals().keys())
 
