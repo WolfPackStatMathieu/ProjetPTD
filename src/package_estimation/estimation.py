@@ -2,7 +2,7 @@
 module estimation.py
 '''
 
-from src.operation import Operation
+from operation import Operation
 
 
 class Estimation(Operation):

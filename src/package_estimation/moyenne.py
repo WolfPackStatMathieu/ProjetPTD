@@ -1,5 +1,6 @@
-from src.package_estimation.estimation import Estimation
+from estimation import Estimation
 import numpy as np
+from pipeline import Pipeline
 
 class Moyenne(Estimation):
     """classe représentant le calcul de la moyenne
@@ -16,17 +17,16 @@ class Moyenne(Estimation):
         self.variables = variables
 
 
-    def ope(self, pipeline):
-        """renvoie la liste des moyennes pour les variables quantitatives,
-        indique None pour les variables qualitatives
+    def ope(self, pipeline : Pipeline):
+        """renvoie la liste des moyennes pour les variables quantitatives
 
         Args:
             pipeline (pipeline): un pipeline
 
         Returns
         -------
-        list[int]
-            liste des moyennes ordonnée selon l'ordre des variables du jeu  données
+        list[float]
+            liste des moyennes ordonnée selon l'ordre des variables du jeu de données
         Examples
         --------
         >>> import numpy as np
@@ -48,6 +48,8 @@ class Moyenne(Estimation):
         """
         liste_moyennes = []
         for v in self.variables:
+            if not(pipeline.resultat.var_type(v)== float or  pipeline.resultat.var_type(v)== int):
+                raise Exception("Pas de moyenne pour une variable qualitative")
             liste = []
             j = pipeline.resultat.get_var(v)
             for i in range(pipeline.resultat.data.shape[0]):
