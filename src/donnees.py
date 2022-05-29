@@ -180,8 +180,8 @@ class Donnees :
             self.var_types.pop(i)
             self.data = np.delete(self.data,i ,1)
 
-    def var_num(self):
-        '''enleve les variable non numériques du jeu de données
+    def var_num(self, exceptions=[]):
+        '''enleve les variable non numériques du jeu de données sauf les exceptions
 
         Examples
         --------
@@ -195,7 +195,8 @@ class Donnees :
         '''
         for v in self.variables:
             if self.var_type(v) != int and self.var_type(v) != float :
-                self.del_var([v])
+                if not v in exceptions:
+                    self.del_var([v])
 
     def concat(self, autres_donnees):
         '''concatène 2 jeu de données selon les variables de l'objet de la méthode
