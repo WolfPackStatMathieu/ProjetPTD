@@ -17,7 +17,7 @@ INVENTAIRE_CSV = []
 # ChargementCsv("test")
 path = Path(os.getcwd()).absolute()
 CheminDossier = str(path) + "\\Fichiers de Données .csv.gz-20220405"
-nom_fichier=['all']
+nom_fichier=['synop.202203.csv.gz']
 Delimiteur = ';'
 
 # Inventaire_CSV = ChargementCsv(CheminDossier, nom_fichier, Delimiteur, True).charge()
@@ -25,5 +25,5 @@ Delimiteur = ';'
 pipeline1 = Pipeline([ChargementCsv(CheminDossier, nom_fichier, Delimiteur, True).charge()])
 # print(pipeline1)
 print(globals().keys())
-# print(globals()['INVENTAIRE_CSV'])
+print(INVENTAIRE_CSV)
 
