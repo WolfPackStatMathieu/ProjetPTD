@@ -16,6 +16,7 @@ class Aggreg(Transformation):
         pipeline.resultat.var_num()
         def aggregat():
             pass
+            
         pipeline.resultat.transform("code_insee_region",[self.space_var],aggregat())
 
 if __name__ == '__main__':
