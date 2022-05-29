@@ -1,5 +1,5 @@
 
-from src.pipeline import Pipeline
+from pipeline import Pipeline
 from transformation import Transformation
 from estimation.moyenne import Moyenne
 
