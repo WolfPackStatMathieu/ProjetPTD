@@ -16,7 +16,8 @@ class ChargementCsv(Chargement):
     """Permet le chargement de jeux de données à partir d'un dossier
     archivant des fichiers csv.
 
-    Ce module charge en mémoire autant de jeux de Données que de fichiers csv.gz et
+    Ce module charge en mémoire autant de jeux de Données que de fichiers csv.gz dans
+    une variable globale "INVENTAIRE_CSV"
 
     Parameters
     ----------
@@ -402,20 +403,20 @@ class ChargementCsv(Chargement):
 
             #On construit un objet Donnees par fichier qui prend en nom le début
             debut_nom = fichier.split('.')[0]
-            date = fichier.split('.')[1]
-            nom_donnees = debut_nom + "_" + date
+            date_fichier = fichier.split('.')[1]
+            nom_donnees = debut_nom + "_" + date_fichier
             print("jeu de Données créé : " +  nom_donnees)
             globals()[nom_donnees] = Donnees(nom= nom_donnees ,variables= variables, data= data)
             globals()[nom_donnees].del_var(['']) #on supprime la dernière colonne qui est vide car c'était dans le CSV d'origine
             # print((globals()[nom_donnees]))
 
             #Création d'un inventaire des jeux de données existant
-            if 'inventaire' not in globals().keys():
-                global inventaire
-                inventaire = []
-                inventaire.append(globals()[nom_donnees])
+            if 'INVENTAIRE_CSV' not in globals().keys():
+                global INVENTAIRE_CSV
+                INVENTAIRE_CSV = []
+                INVENTAIRE_CSV.append(globals()[nom_donnees])
             else:
-                inventaire.append(globals()[nom_donnees])
+                INVENTAIRE_CSV.append(globals()[nom_donnees])
             # RESTRICTION : que se passe-t-il si l'utilisateur change le nom de données
 
             #message pour l'introduction de valeurs manquantes
@@ -425,6 +426,9 @@ class ChargementCsv(Chargement):
 
             elif presence_na:
                 print("Attention: le jeu de données "f'{globals()[nom_donnees].nom} ' "présente des valeurs manquantes")
+
+    # def get_inventaire_csv(self):
+    #     return INVENTAIRE_CSV
 
 
     def ope(self, pipeline):
@@ -448,7 +452,7 @@ class ChargementCsv(Chargement):
         """
 
 
-        if self.noms_fichiers == 'all':
+        if self.noms_fichiers == ['all']:
             raise Exception("Vous n'avez pas spécifié de Données à charger.")
         else:
             self.charge()
@@ -458,10 +462,11 @@ class ChargementCsv(Chargement):
 
 
 
+
 if __name__ == '__main__':
     import doctest
     doctest.testmod(verbose = False)
     # print(globals().keys())
-    print([Donnees.nom for Donnees in globals()['inventaire']])
+    print([Donnees.nom for Donnees in globals()['INVENTAIRE_CSV']])
 
 

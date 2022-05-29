@@ -1,13 +1,13 @@
 '''module chargement.py,
 classe abstraite'''
 
+from src.operation  import Operation
 import os
 import sys
 currentdir = os.path.dirname(os.path.realpath("chargement.py"))
 parentdir = os.path.dirname(currentdir)
 sys.path.append(parentdir)
 
-from src.operation  import Operation
 
 class Chargement(Operation):
     ''' Classe abstraite pour charger les données
