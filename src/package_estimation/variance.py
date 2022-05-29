@@ -60,7 +60,7 @@ class Variance(Estimation):
             somme = sum(liste)
             moyenne = somme/len(liste)
             liste2 = [(k - moyenne)**2 for k in liste]
-            variance = round(sum(liste2),2)
+            variance = round(sum(liste2)/len(liste2),2)
             liste_variances.append(variance)
         return liste_variances
 
