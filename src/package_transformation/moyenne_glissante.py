@@ -12,6 +12,13 @@ class Moyenne_Glissante(Transformation):
         self.pas = pas
 
     def ope(self, pipeline : Pipeline):
+        '''méthode qui permet d'exécuter l'opération
+
+        Parameters
+        ----------
+        pipeline : Pipeline
+            pipeline sur lequel s'éxecute l'opération
+        '''
         i = 0
         def glissante(var):
             if i < self.pas or i > pipeline.resultat.data.shape[0] - self.pas - 1 :

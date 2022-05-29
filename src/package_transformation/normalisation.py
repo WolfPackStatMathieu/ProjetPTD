@@ -9,6 +9,13 @@ class Normalisation(Transformation):
         self.variables = variables
 
     def ope(self,pipeline : Pipeline):
+        '''méthode qui permet d'exécuter l'opération
+
+        Parameters
+        ----------
+        pipeline : Pipeline
+            pipeline sur lequel s'éxecute l'opération
+        '''
         for v in self.variables:
             v_moyen = Moyenne([v]).ope(Pipeline('',[v],pipeline.resultat.data[:][pipeline.resultat.get_var(v)]))
             v_variance = Variance([v]).ope(Pipeline('',[v],pipeline.resultat.data[:][pipeline.resultat.get_var(v)]))

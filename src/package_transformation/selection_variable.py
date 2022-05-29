@@ -8,6 +8,13 @@ class Selection__var(Transformation):
         self.selection = selection
 
     def ope(self,pipeline : Pipeline):
+        '''méthode qui permet d'exécuter l'opération
+
+        Parameters
+        ----------
+        pipeline : Pipeline
+            pipeline sur lequel s'éxecute l'opération
+        '''
         for v in pipeline.resultat.variables:
             if not v in self.selection:
                 pipeline.resultat.del_var([v])

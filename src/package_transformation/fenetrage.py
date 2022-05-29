@@ -10,6 +10,13 @@ class Fenetrage(Transformation):
         self.echantillon = echantillon
 
     def ope(self, pipeline : Pipeline):
+        '''méthode qui permet d'exécuter l'opération
+
+        Parameters
+        ----------
+        pipeline : Pipeline
+            pipeline sur lequel s'éxecute l'opération
+        '''
         pipeline.resultat.filtre([self.time_var], lambda x : self.debut <= x[0] <= self.fin)
 
 if __name__ == '__main__':

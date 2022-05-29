@@ -11,6 +11,13 @@ class Jointure(Transformation):
         self.keys = keys
 
     def ope(self,pipeline : Pipeline):
+        '''méthode qui permet d'exécuter l'opération
+
+        Parameters
+        ----------
+        pipeline : Pipeline
+            pipeline sur lequel s'éxecute l'opération
+        '''
         variables_suppl = []
         for v in self.autre_donnes.variables :
             if v in pipeline.resultat.variables :

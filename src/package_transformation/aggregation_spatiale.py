@@ -6,6 +6,13 @@ class Aggreg(Transformation):
         self.space_var = space_var
 
     def ope(self,pipeline : Pipeline):
+        '''méthode qui permet d'exécuter l'opération
+
+        Parameters
+        ----------
+        pipeline : Pipeline
+            pipeline sur lequel s'éxecute l'opération
+        '''
         pipeline.resultat.var_num()
         def aggregat():
             pass

@@ -1,4 +1,5 @@
 from affichage import Affichage
 
-class Aggreg(Affichage):
+
+class Carte(Affichage):
     pass
