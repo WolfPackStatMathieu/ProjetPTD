@@ -22,3 +22,8 @@ class Sauvegarde(Operation):
         """
         self.chemin = chemin
         self.nom = nom
+
+if __name__ == '__main__':
+    #Test des exemples de la documentation
+    import doctest
+    doctest.testmod(verbose=True)
