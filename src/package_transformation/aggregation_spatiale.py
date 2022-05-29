@@ -10,13 +10,10 @@ class Aggreg(Transformation):
 
         def aggregat():
             pass
-<<<<<<< HEAD
         pipeline.resultat.transform("code_insee_region",[self.space_var],aggregat())
-=======
         pipeline.resultat.transform(self.space_var + "_aggr",[self.space_var],aggregat())
 
 if __name__ == '__main__':
     #Test des exemples de la documentation
     import doctest
     doctest.testmod(verbose=False)
->>>>>>> d336e943ddd151216e7ca725100a2e73ca329a61
