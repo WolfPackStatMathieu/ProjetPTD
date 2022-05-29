@@ -186,9 +186,9 @@ class ChargementCsv(Chargement):
             debut_nom = fichier.split('.')[0]
             date_fichier = fichier.split('.')[1]
             nom_donnees = debut_nom + "_" + date_fichier
-            print("jeu de Données créé : " +  nom_donnees)
+            print("jeu de Données créé issu d'un .csv: " +  nom_donnees)
             globals()[nom_donnees] = Donnees(nom= nom_donnees ,variables= variables, data= data)
-            globals()[nom_donnees].del_var(['']) #on supprime la dernière colonne qui est vide car c'était dans le CSV d'origine
+            # globals()[nom_donnees].del_var(['']) #on supprime la dernière colonne qui est vide car c'était dans le CSV d'origine
             # print((globals()[nom_donnees]))
 
             #Création d'un inventaire des jeux de données existant
@@ -207,9 +207,6 @@ class ChargementCsv(Chargement):
 
             elif presence_na:
                 print("Attention: le jeu de données "f'{globals()[nom_donnees].nom} ' "présente des valeurs manquantes")
-
-    # def get_inventaire_csv(self):
-    #     return INVENTAIRE_CSV
 
 
     def ope(self, pipeline):

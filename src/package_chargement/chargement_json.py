@@ -24,6 +24,7 @@ class ChargementJson(Chargement):
 
     Ce module charge en mémoire autant de jeux de Données que de
     fichiers json présents  dans une variable globale "INVENTAIRE_JSON"
+    Les objets Donnees issus de .json prennent sont nommés par leur date
 
     Parameters
     ----------
@@ -140,7 +141,7 @@ class ChargementJson(Chargement):
             liste_fichiers_conserves = [value.split('\\')[-1] for key, value in fichiers_conserves.items()] #liste des fichiers conservés
             for fichier_demande in self.noms_fichiers: #on parcourt la liste des fichiers demandés
                     if fichier_demande not in liste_fichiers_conserves: # si le fichier demandé n'est pas dans la liste des fichiers du dossier
-                        if fichier_demande != ['all']:
+                        if fichier_demande != 'all':
                             raise Exception("Un fichier demandé n'est pas dans le dossier sélectionné.")
             # on garde uniquement les fichiers demandés parmi l'ensemble des fichiers conservés
             for key, value in fichiers_conserves.items():
@@ -245,7 +246,8 @@ class ChargementJson(Chargement):
             #On construit un objet Donnees par fichier qui prend en nom le début
             debut_nom = fichier.split('.')[0]
             nom_donnees = debut_nom.split('.')[0]
-            # print("jeu de Données créé : " +  nom_donnees)
+            # Les objets Donnees issus de .json prennent sont nommés par leur date
+            print("jeu de Données créé issu d'un .json : " +  nom_donnees)
             globals()[nom_donnees] = Donnees(nom= nom_donnees ,variables= variables, data= donnees)
             if 'INVENTAIRE_JSON' not in globals().keys():
                 global INVENTAIRE_JSON
@@ -279,9 +281,13 @@ class ChargementJson(Chargement):
             raise Exception("Vous n'avez pas spécifié de Données à charger.")
         else:
             self.charge()
-            jeu_de_donnees = globals()[self.noms_fichiers[0]]
+            jeu_de_donnees = self.noms_fichiers[0]
+            jeu_de_donnees = jeu_de_donnees.split(".")
+            debut_nom = jeu_de_donnees[0]
+            date_fichier = jeu_de_donnees[1]
+            nom_donnees = debut_nom #+ "_" + date_fichier vu le nommage des fichiers json
+            jeu_de_donnees = globals()[nom_donnees]
             pipeline.resultat = jeu_de_donnees
-
 
 
 # variables =['datasetid', 'recordid', 'fields', 'code_insee_region', 'date', 'region', 'date_heure', 'heure', 'record_timestamp', 'consommation_brute_gaz_terega', 'statut_terega', 'consommation_brute_electricite_rte', 'statut_rte', 'consommation_brute_gaz_grtgaz', 'consommation_brute_totale', 'consommation_brute_gaz_totale', 'statut_grtgaz']
