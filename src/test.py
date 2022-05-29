@@ -1,5 +1,8 @@
 import os
 from pathlib import Path
+from typing import Concatenate
+
+from pandas import concat
 import src.package_affichage
 from src.package_chargement.chargement_json import ChargementJson
 import src.package_estimation
@@ -8,6 +11,7 @@ import src.package_sauvegarde
 from src.donnees import Donnees
 from src.package_chargement.chargement_csv import ChargementCsv
 from src.package_transformation.aggregation_spatiale import Aggreg
+from src.package_transformation.concatenation import Concatenation
 from src.package_transformation.jointure import Jointure
 from src.pipeline import Pipeline
 import src.package_transformation
@@ -35,7 +39,7 @@ folder_json=''
 file_name_csv=[]
 file_name_json=[]
 
-question_1=Pipeline([ChargementJson(folder_json,file_name_json),ChargementCsv(folder_csv,file_name_csv),Jointure('autre_donnes','keys'), Aggreg('space_var'),Jointure('autre_donnes','keys'), Nuage_de_points('vars')])
+question_1=Pipeline([ChargementJson(folder_json,file_name_json),ChargementCsv(folder_csv,file_name_csv),Concatenation(file_name_csv[1:]), Aggreg('space_var'),Jointure(Pipeline([Concatenate(file_name_json[1:]),file_name_json[0]]).get_res,'keys'), Nuage_de_points('vars')])
 
 reponse_1=question_1.get_res()
 
