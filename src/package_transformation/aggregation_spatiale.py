@@ -2,8 +2,7 @@ from src.pipeline import Pipeline
 from transformation import Transformation
 
 class Aggreg(Transformation):
-    def __init__(self, space_var, echelle = "region") :
-        self.echelle = echelle
+    def __init__(self, space_var,) :
         self.space_var = space_var
 
     def ope(self,pipeline : Pipeline):
