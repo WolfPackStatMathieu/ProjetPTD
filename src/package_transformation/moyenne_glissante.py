@@ -21,7 +21,7 @@ class Moyenne_Glissante(Transformation):
                 suite=[pipeline.resultat.data[i - self.pas + k ][j] for k in range(2 * self.pas +1)]
                 i+=1
                 return sum(suite)/len(suite)
-        
+
         for v in self.variables:
             i = 0
             pipeline.resultat.transform(v +'_gliss',[v],glissante(v))

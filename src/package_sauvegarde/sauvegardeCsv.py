@@ -28,12 +28,21 @@ class SauvegardeCsv(Sauvegarde):
         >>> import numpy as np
         >>> from src.donnees import Donnees
         >>> from src.pipeline import Pipeline
-        >>> mes_donnees = Donnees('nom',['nom', 'valeur'],[['a',1], ['b', 5 ], ['c',9]])
+        >>> mes_donnees = Donnees('mon_nom_jeu_de_donnees',['nom', 'valeur'],[['a',1], ['b', 5 ], ['c',9]])
+        >>> isinstance(mes_donnees, Donnees)
+        True
         >>> import os
         >>> from pathlib import Path
-        >>> chemin = Path(os.getcwd()).absolute()
+        >>> chemin = str(Path(os.getcwd()).absolute())
         >>> nom = "mon_test_export"
-        >>> Pipeline([sauvegardeCsv(chemin, nom)], mes_donnees)
+        >>> mon_pipeline = Pipeline([SauvegardeCsv(chemin, nom)], mes_donnees)
+        >>> mon_pipeline.resultat.variables
+        ['nom', 'valeur']
+        >>> mon_pipeline.resultat.nom
+        'mon_nom_jeu_de_donnees'
+        >>> isinstance(mon_pipeline.resultat.data, np.ndarray)
+        True
+
 
         """
         chemin_complet = self.chemin + "\\" + self.nom +".csv"
@@ -43,5 +52,5 @@ class SauvegardeCsv(Sauvegarde):
 if __name__ == '__main__':
     #Test des exemples de la documentation
     import doctest
-    doctest.testmod(verbose=True)
+    doctest.testmod(verbose=False)
 
