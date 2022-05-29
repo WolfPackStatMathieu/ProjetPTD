@@ -1,13 +1,13 @@
 import os
 from pathlib import Path
-import affichage
-import estimation
-import package_chargement
-import sauvegarde
-from donnees import Donnees
-from package_chargement.chargement_csv import ChargementCsv
-from pipeline import Pipeline
-import transformation
+import src.package_affichage
+import src.package_estimation
+import src.package_chargement
+import src.package_sauvegarde
+from src.donnees import Donnees
+from src.package_chargement.chargement_csv import ChargementCsv
+from src.pipeline import Pipeline
+import src.package_transformation
 
 
 #####Déclaration des inventaires####

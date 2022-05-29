@@ -5,7 +5,7 @@ class Aggreg(Transformation):
     def __init__(self, space_var, echelle = "region") :
         self.echelle = echelle
         self.space_var = space_var
-    
+
     def ope(self,pipeline : Pipeline):
         def aggregat():
             pass
