@@ -7,11 +7,10 @@ class Aggreg(Transformation):
         self.space_var = space_var
 
     def ope(self,pipeline : Pipeline):
-
+        pipeline.resultat.var_num()
         def aggregat():
             pass
         pipeline.resultat.transform("code_insee_region",[self.space_var],aggregat())
-        pipeline.resultat.transform(self.space_var + "_aggr",[self.space_var],aggregat())
 
 if __name__ == '__main__':
     #Test des exemples de la documentation
