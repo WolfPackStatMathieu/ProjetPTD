@@ -7,10 +7,12 @@ import numpy as np
 class SauvegardeCsv(Sauvegarde):
     """_summary_
 
-    Parameters
+    Attributes
     ----------
-    Sauvegarde : _type_
-        _description_
+    chemin : str
+            chemin du dossier où l'on veut sauvegarder
+    nom : str
+        nom sous lequel on veut sauvegarder les données
     """
 
     def ope(self, pipeline):
@@ -25,12 +27,17 @@ class SauvegardeCsv(Sauvegarde):
         --------
         >>> import numpy as np
         >>> from src.donnees import Donnees
-        >>> test = Donnees('nom',['nom', 'valeur'],[['a',1], ['b', 5 ], ['c',9]])
-
+        >>> from src.pipeline import Pipeline
+        >>> mon_pipeline = Donnees('nom',['nom', 'valeur'],[['a',1], ['b', 5 ], ['c',9]])
+        >>> import os
+        >>> from pathlib import Path
+        >>> chemin = Path(os.getcwd()).absolute()
+        >>> nom = "mon_test_export"
+        >>> Pipeline([], mon_pipeline)
+        >>>
         """
-
-        a = numpy.asarray([ [1,2,3], [4,5,6], [7,8,9] ])
-        numpy.savetxt("foo.csv", a, delimiter=",")
+        chemin_complet = self.chemin + "\\" + self.nom +".csv"
+        numpy.savetxt(chemin_complet, pipeline.resultat, delimiter=",", header = pipeline.resultat.variables)
 
 
 if __name__ == '__main__':
