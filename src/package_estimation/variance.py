@@ -38,7 +38,7 @@ class Variance(Estimation):
         1
         >>> test_2 = test.var_num()
         >>> from src.package_estimation.moyenne import Moyenne
-        >>> mon_operation1 = Moyenne(['valeur'])
+        >>> mon_operation1 = Variance(['valeur'])
         >>> ma_liste_operations = [mon_operation1]
         >>> mypipeline = Pipeline(ma_liste_operations, test)
         >>> isinstance(mypipeline , Pipeline)
@@ -60,7 +60,7 @@ class Variance(Estimation):
             somme = sum(liste)
             moyenne = somme/len(liste)
             liste2 = [(k - moyenne)**2 for k in liste]
-            variance = round(liste2,2)
+            variance = round(sum(liste2),2)
             liste_variances.append(variance)
         return liste_variances
 
