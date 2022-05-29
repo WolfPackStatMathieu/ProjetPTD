@@ -8,7 +8,10 @@ class Sauvegarde(Operation):
 
     Attributes
     ----------
-
+    chemin : str
+            chemin du dossier où l'on veut sauvegarder
+    nom : str
+        nom sous lequel on veut sauvegarder les données
     """
     def __init__(self, chemin, nom):
         """constructeur de sauvegarde
