@@ -1,7 +1,7 @@
 '''module contenant la classe de la pipeline'''
 
 # import operation
-from donnees  import Donnees
+from src.donnees  import Donnees
 
 class Pipeline:
     '''représente une pipeline

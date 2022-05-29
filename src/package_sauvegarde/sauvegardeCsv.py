@@ -28,13 +28,13 @@ class SauvegardeCsv(Sauvegarde):
         >>> import numpy as np
         >>> from src.donnees import Donnees
         >>> from src.pipeline import Pipeline
-        >>> mon_pipeline = Donnees('nom',['nom', 'valeur'],[['a',1], ['b', 5 ], ['c',9]])
+        >>> mes_donnees = Donnees('nom',['nom', 'valeur'],[['a',1], ['b', 5 ], ['c',9]])
         >>> import os
         >>> from pathlib import Path
         >>> chemin = Path(os.getcwd()).absolute()
         >>> nom = "mon_test_export"
-        >>> Pipeline([], mon_pipeline)
-        >>>
+        >>> Pipeline([sauvegardeCsv(chemin, nom)], mes_donnees)
+
         """
         chemin_complet = self.chemin + "\\" + self.nom +".csv"
         np.savetxt(chemin_complet, pipeline.resultat, delimiter=",", header = pipeline.resultat.variables)
