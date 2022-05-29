@@ -1,8 +1,11 @@
 from donnees import Donnees
+from src.package_transformation.concatenation import Concatenation
 from src.pipeline import Pipeline
 from src.package_transformation.jointure import Jointure
 from src.pipeline import Pipeline
 from transformation import Transformation
+from package_estimation.moyenne import Moyenne
+import numpy as np
 
 class Aggregation(Transformation):
     '''classe de l'opération de d'aggregation spatiale qui permet d'aggréger des valeurs
@@ -59,16 +62,14 @@ class Aggregation(Transformation):
         for cle in groupement.keys():
             memo_date = groupement[cle].data[0,k]
             memo_geo = groupement[cle].data[0,j]
-            groupement[cle].del_var([])
-
-            
+            groupement[cle].del_var(['date', 'code_insee_region'])
+            aggregat = Pipeline([Moyenne(groupement[cle].variables)],groupement[cle]).get_res
+            aggregat.add_var(['date','code_insee_region'],np.array([memo_date,memo_geo]))
+            nouvelles_lignes.append(aggregat)
         
-    
-                
+        resultat=Pipeline([Concatenation(nouvelles_lignes[1,:])],nouvelles_lignes[0])
 
-
-
-
+        pipeline.resultat = resultat
 
 
 if __name__ == '__main__':
