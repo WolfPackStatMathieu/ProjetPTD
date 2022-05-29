@@ -9,5 +9,5 @@ class Affichage(Operation):
         liste des variables dont on veut afficher le résultat
     """
 
-    def op():
+    def ope():
         pass
