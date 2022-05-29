@@ -59,7 +59,7 @@ class Moyenne(Estimation):
                     liste.append(pipeline.resultat.data[i,j])
             somme = sum(liste)
             moyenne = round(somme/len(liste), 2)
-        liste_moyennes.append(moyenne)
+            liste_moyennes.append(moyenne)
         return liste_moyennes
 
 if __name__ == '__main__':
