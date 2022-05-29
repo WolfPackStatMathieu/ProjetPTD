@@ -53,11 +53,12 @@ class SauvegardeCsv(Sauvegarde):
         'mon_nom_jeu_de_donnees'
         >>> isinstance(mon_pipeline.resultat.data, np.ndarray)
         True
+        >>> mon_pipeline.execute()
 
 
         """
         chemin_complet = self.chemin + "\\" + self.nom +".csv"
-        np.savetxt(chemin_complet, pipeline.resultat, delimiter=",", header = pipeline.resultat.variables)
+        np.savetxt(chemin_complet, pipeline.resultat.data, delimiter=",", header = ','.join(pipeline.resultat.variables),  fmt='%s')
 
 
 if __name__ == '__main__':

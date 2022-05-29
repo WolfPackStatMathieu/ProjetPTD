@@ -37,8 +37,11 @@ class Pipeline:
     ['nom', 'valeur']
     >>> mon_pipeline.resultat.nom
     'mon_nom_jeu_de_donnees'
+    >>> type(mon_pipeline.resultat.data)
+    <class 'numpy.ndarray'>
     >>> isinstance(mon_pipeline.resultat.data, np.ndarray)
     True
+
     '''
     def __init__(self,etapes, resultat = Donnees('vide',[],[])) :
         self.etapes = etapes
