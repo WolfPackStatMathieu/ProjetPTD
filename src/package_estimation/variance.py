@@ -1,6 +1,6 @@
-from estimation import Estimation
+from src.package_estimation.estimation import Estimation
 import numpy as np
-from pipeline import Pipeline
+from src.pipeline import Pipeline
 
 class Variance(Estimation):
     """classe représentant le calcul de la variance
