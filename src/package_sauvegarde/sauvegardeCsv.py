@@ -37,7 +37,7 @@ class SauvegardeCsv(Sauvegarde):
         >>>
         """
         chemin_complet = self.chemin + "\\" + self.nom +".csv"
-        numpy.savetxt(chemin_complet, pipeline.resultat, delimiter=",", header = pipeline.resultat.variables)
+        np.savetxt(chemin_complet, pipeline.resultat, delimiter=",", header = pipeline.resultat.variables)
 
 
 if __name__ == '__main__':
