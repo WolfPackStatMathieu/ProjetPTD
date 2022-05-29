@@ -13,6 +13,17 @@ class SauvegardeCsv(Sauvegarde):
             chemin du dossier où l'on veut sauvegarder
     nom : str
         nom sous lequel on veut sauvegarder les données
+    Examples
+    --------
+    >>> from src.donnees  import Donnees
+    >>> mes_donnees = Donnees('mon_nom_jeu_de_donnees',['nom', 'valeur'],[['a',1], ['b', 5 ], ['c',9]])
+    >>> import os
+    >>> from pathlib import Path
+    >>> from src.package_sauvegarde.sauvegardeCsv import SauvegardeCsv
+    >>> chemin = str(Path(os.getcwd()).absolute())
+    >>> nom = "mon_test_export"
+    >>> isinstance(SauvegardeCsv(chemin, nom), SauvegardeCsv)
+    True
     """
 
     def ope(self, pipeline):
@@ -42,11 +53,12 @@ class SauvegardeCsv(Sauvegarde):
         'mon_nom_jeu_de_donnees'
         >>> isinstance(mon_pipeline.resultat.data, np.ndarray)
         True
+        >>> mon_pipeline.execute()
 
 
         """
         chemin_complet = self.chemin + "\\" + self.nom +".csv"
-        np.savetxt(chemin_complet, pipeline.resultat, delimiter=",", header = pipeline.resultat.variables)
+        np.savetxt(chemin_complet, pipeline.resultat.data, delimiter=",", header = ','.join(pipeline.resultat.variables),  fmt='%s')
 
 
 if __name__ == '__main__':
