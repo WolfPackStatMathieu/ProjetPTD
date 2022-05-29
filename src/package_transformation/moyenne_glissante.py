@@ -7,6 +7,7 @@ from estimation.moyenne import Moyenne
 class Moyenne_Glissante(Transformation):
 
     def __init__(self, variables, pas):
+
         self.variables=variables
         self.pas = pas
 
@@ -25,3 +26,8 @@ class Moyenne_Glissante(Transformation):
         for v in self.variables:
             i = 0
             pipeline.resultat.transform(v +'_gliss',[v],glissante(v))
+
+if __name__ == '__main__':
+    #Test des exemples de la documentation
+    import doctest
+    doctest.testmod(verbose=False)

@@ -10,3 +10,8 @@ class Aggreg(Transformation):
         def aggregat():
             pass
         pipeline.resultat.transform(self.space_var + "_aggr",[self.space_var],aggregat())
+
+if __name__ == '__main__':
+    #Test des exemples de la documentation
+    import doctest
+    doctest.testmod(verbose=False)
