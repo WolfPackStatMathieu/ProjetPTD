@@ -22,28 +22,28 @@ from src.package_sauvegarde.sauvegardeCsv import SauvegardeCsv
 
 
 ### Chargement du premier fichier csv###
-ChargementCsv("test")
-path = Path(os.getcwd()).absolute()
-cheminDossier = str(path) + "\\Fichiers de Données .csv.gz-20220405"
-nom_fichier=['synop.202203.csv.gz']
-delimiteur = ';'
-pipeline1 = Pipeline([ChargementCsv(cheminDossier, nom_fichier, delimiteur, True)])
+# ChargementCsv("test")
+# path = Path(os.getcwd()).absolute()
+# cheminDossier = str(path) + "\\Fichiers de Données .csv.gz-20220405"
+# nom_fichier=['synop.202203.csv.gz']
+# delimiteur = ';'
+# pipeline1 = Pipeline([ChargementCsv(cheminDossier, nom_fichier, delimiteur, True)])
 
-chemin = str(Path(os.getcwd()).absolute())
-nom2 = "synop.201301_csv"
-pipeline1.add_ope(SauvegardeCsv(chemin, nom2))
-pipeline1.execute()
+# chemin = str(Path(os.getcwd()).absolute())
+# nom2 = "synop.201301_csv"
+# pipeline1.add_ope(SauvegardeCsv(chemin, nom2))
+# pipeline1.execute()
 
 ##Chargement du premier fichier Json##
-path = Path(os.getcwd()).absolute()
-cheminDossier = str(path) + "\\Fichiers de Données .json.gz-20220405"
-nom_fichier=['2013-01.json.gz']
-delimiteur = ';'
-pipeline2 =  Pipeline([ChargementJson(cheminDossier, nom_fichier, delimiteur, True)])
-chemin = str(Path(os.getcwd()).absolute())
-nom2 = "2013-01_json"
-pipeline2.add_ope(SauvegardeCsv(chemin, nom2))
-pipeline2.execute()
+# path = Path(os.getcwd()).absolute()
+# cheminDossier = str(path) + "\\Fichiers de Données .json.gz-20220405"
+# nom_fichier=['2013-01.json.gz']
+# delimiteur = ';'
+# pipeline2 =  Pipeline([ChargementJson(cheminDossier, nom_fichier, delimiteur, True)])
+# chemin = str(Path(os.getcwd()).absolute())
+# nom2 = "2013-01_json"
+# pipeline2.add_ope(SauvegardeCsv(chemin, nom2))
+# pipeline2.execute()
 
 
 
@@ -64,11 +64,13 @@ nom2 = ["postesSynopAvecRegions.csv.gz"]
 ##### 2 on crée les données
 path = Path(os.getcwd()).absolute()
 cheminDossier = str(path) + "\\fichiers stations et régions"
+print(cheminDossier)
 nom_fichier=['postesSynopAvecRegions.csv.gz']
 delimiteur = ';'
 
-pipeline1 = Pipeline([ChargementCsv(cheminDossier, nom_fichier, delimiteur, True)])
-pipeline1.execute()
+pipeline1 = Pipeline([ChargementCsv(cheminDossier, nom_fichier, delimiteur, True)]).get_res()
+
+print(pipeline1)
 
 #Vérification de la présence des jeux de données
 # print(globals().keys())

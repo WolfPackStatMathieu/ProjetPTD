@@ -1,8 +1,9 @@
-from donnees import Donnees
+import os
+from pathlib import Path
+from transformation import Transformation
+from src.donnees import Donnees
 from src.pipeline import Pipeline
 from src.package_transformation.jointure import Jointure
-from src.pipeline import Pipeline
-from transformation import Transformation
 
 class Aggregation(Transformation):
     '''classe de l'opération de d'aggregation spatiale qui permet d'aggréger des valeurs
@@ -27,7 +28,7 @@ class Aggregation(Transformation):
     >>> print(mon_pipeline)
     [['a' -4.0]
      ['b' 0.0]
-     ['c' 4.0]]    
+     ['c' 4.0]]
 
 
     '''
@@ -42,7 +43,18 @@ class Aggregation(Transformation):
         pipeline : Pipeline
             pipeline sur lequel s'éxecute l'opération
         '''
-        correspondance = 0
+
+        ##### Chargement des Données avec l'identifiant
+        # de la station et la région ###
+
+        ##### on crée les données
+        path = Path(os.getcwd()).parent.parent.absolute()
+        cheminDossier = str(path) + "\\fichiers stations et régions"
+        nom_fichier=['postesSynopAvecRegions.csv.gz']
+        delimiteur = ';'
+        pipeline1 = Pipeline([ChargementCsv(cheminDossier, nom_fichier, delimiteur, True)]) #pipeline créant les données de correspondance
+        correspondance = pipeline1.execute().get_res() #récupération des Données de correspondance
+
         tableau_joint = Pipeline([Jointure((correspondance,'numer_sta')), pipeline.resultat]).get_res()
         tableau_joint.var_num(['date','code_insee_region'])
         groupement={}
@@ -61,10 +73,10 @@ class Aggregation(Transformation):
             memo_geo = groupement[cle].data[0,j]
             groupement[cle].del_var([])
 
-            
-        
-    
-                
+
+
+
+
 
 
 
