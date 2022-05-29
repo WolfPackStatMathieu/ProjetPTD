@@ -41,7 +41,7 @@ class Serie_temporelle(Affichage):
             pipeline (Pipeline): un pipeline
         """
         if pipeline.resultat.var_type(self.var_time) != date:
-            raise Exception("Merci de bien entrer une variable temporelle couillon")
+            raise Exception("Merci de bien entrer une variable temporelle")
         else:
             grosse_liste = []
             k = pipeline.resultat.get_var(self.var_time)
