@@ -5,7 +5,35 @@ import numpy as np
 from transformation import Transformation
 from transformation import Transformation
 class Jointure(Transformation):
-    '''classe d'opération permettant de joindre à gauche des jeux de donnees'''
+    '''classe d'opération permettant de joindre à gauche des jeux de donnees
+
+    Parameters
+    ----------
+    autre_donnees : Donnees
+        donnees a joindre
+    keys : list[string]
+        clé de jointure
+
+    Attributes
+    ----------
+
+    autre_donnees : Donnees
+        donnees a joindre
+    keys : list[string]
+        clé de jointure
+
+    Examples
+    --------
+    >>> import numpy as np
+    >>> mes_donnees_1 = Donnees('mon_nom_jeu_de_donnees',['nom', 'valeur'],[['a',1], ['b', 5 ], ['c',9]])
+    >>> mes_donnees_2 = Donnees('mon_nom_jeu_de_donnees',['nom', 'titre'],[['a','numero1'], ['b', 'numero2' ], ['c','numero3']])
+    >>> mon_pipeline.execute()
+    >>> print(mon_pipeline)
+    [['a' 1 'numero1']
+     ['b' 5 'numero2']
+     ['c' 9 'numero3']]
+
+    '''
     def __init__(self,autre_donnees : Donnees, keys ):
         self.autre_donnes = autre_donnees
         self.keys = keys
