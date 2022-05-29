@@ -1,5 +1,5 @@
 
-from pipeline import Pipeline
+from src.pipeline import Pipeline
 from transformation import Transformation
 from estimation.moyenne import Moyenne
 
@@ -23,9 +23,9 @@ class Centrage(Transformation):
     >>> mon_pipeline = Pipeline([Centrage(['valeur'])], mes_donnes)
     >>> mon_pipeline.execute()
     >>> print(mon_pipeline)
-    [['a' 1]
-     ['b' 5]
-     ['c' 9]]    
+    [['a' -4.0]
+     ['b' 0.0]
+     ['c' 4.0]]    
 
 
     '''
