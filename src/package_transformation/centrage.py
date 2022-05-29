@@ -1,7 +1,10 @@
 
+'''Centre un jeu de données
+'''
+
 from src.pipeline import Pipeline
-from transformation import Transformation
-from estimation.moyenne import Moyenne
+from src.package_transformation.transformation import Transformation
+from src.package_estimation.moyenne import Moyenne
 
 class Centrage(Transformation):
     '''classe de l'opération de centrage qui permet de soustraire la moyenne à toute les valeurs
@@ -19,13 +22,15 @@ class Centrage(Transformation):
     Examples
     --------
     >>> import numpy as np
+    >>> from src.pipeline import Pipeline
+    >>> from src.donnees import Donnees
     >>> mes_donnees = Donnees('mon_nom_jeu_de_donnees',['nom', 'valeur'],[['a',1], ['b', 5 ], ['c',9]])
-    >>> mon_pipeline = Pipeline([Centrage(['valeur'])], mes_donnes)
+    >>> mon_pipeline = Pipeline([Centrage(['valeur'])], mes_donnees)
     >>> mon_pipeline.execute()
-    >>> print(mon_pipeline)
-    [['a' -4.0]
-     ['b' 0.0]
-     ['c' 4.0]]    
+    >>> print(mon_pipeline.resultat)
+    [['a' 1 -4.0]
+     ['b' 5 0.0]
+     ['c' 9 4.0]]
 
 
     '''
@@ -41,7 +46,7 @@ class Centrage(Transformation):
             pipeline sur lequel s'éxecute l'opération
         '''
         for v in self.variables:
-            v_moyen = Moyenne([v]).ope(Pipeline('',[v],pipeline.resultat.data[:][pipeline.resultat.get_var(v)]))
+            v_moyen = Moyenne([v]).ope(pipeline)[0]
             pipeline.resultat.transform(v +'_centr',[v],lambda x : x[0] - v_moyen)
 
 if __name__ == '__main__':

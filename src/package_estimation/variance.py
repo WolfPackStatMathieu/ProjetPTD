@@ -44,7 +44,7 @@ class Variance(Estimation):
         >>> isinstance(mypipeline , Pipeline)
         True
         >>> mon_operation1.ope(mypipeline)
-        [9.56]
+        [4.67]
 
 
         """

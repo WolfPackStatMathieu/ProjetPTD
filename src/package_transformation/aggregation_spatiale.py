@@ -1,10 +1,10 @@
-from donnees import Donnees
+from src.donnees import Donnees
 from src.package_transformation.concatenation import Concatenation
 from src.pipeline import Pipeline
 from src.package_transformation.jointure import Jointure
 from src.pipeline import Pipeline
-from transformation import Transformation
-from package_estimation.moyenne import Moyenne
+from src.package_transformation.transformation import Transformation
+from src.package_estimation.moyenne import Moyenne
 import numpy as np
 
 class Aggregation(Transformation):
@@ -27,7 +27,6 @@ class Aggregation(Transformation):
     >>> mes_donnees = Donnees('mon_nom_jeu_de_donnees',['nom', 'numer_sta'],[['a',], ['b', ], ['c',]])
     >>> mon_pipeline = Pipeline([Aggregation(['numer_sta'])], mes_donnes)
     >>> mon_pipeline.execute()
-    >>> print(mon_pipeline)
     [['a' -4.0]
      ['b' 0.0]
      ['c' 4.0]]
@@ -54,8 +53,8 @@ class Aggregation(Transformation):
         cheminDossier = str(path) + "\\fichiers stations et régions"
         nom_fichier=['postesSynopAvecRegions.csv.gz']
         delimiteur = ';'
-        pipeline1 = Pipeline([ChargementCsv(cheminDossier, nom_fichier, delimiteur, True)]) #pipeline créant les données de correspondance
-        correspondance = pipeline1.execute().get_res() #récupération des Données de correspondance
+        liste_donnees = ChargementCsv(cheminDossier, nom_fichier, delimiteur, True).charge()
+        correspondance = liste_donnees[0] #récupération des Données de correspondance
 
         tableau_joint = Pipeline([Jointure((correspondance,'numer_sta')), pipeline.resultat]).get_res()
         tableau_joint.var_num(['date','code_insee_region'])

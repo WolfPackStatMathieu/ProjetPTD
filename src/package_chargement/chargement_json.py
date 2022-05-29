@@ -116,6 +116,7 @@ class ChargementJson(Chargement):
         >>> delimiteur = ';'
         >>> mon_chargementJson = ChargementJson(chemin_dossier, nom_fichier, delimiteur, True)
         >>> mon_chargementJson.charge()
+        jeu de Données créé issu d'un .json : 2013-01
 
         """
         #On récupère la liste de TOUS les fichiers (avec le chemin absolu
