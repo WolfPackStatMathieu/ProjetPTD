@@ -42,7 +42,9 @@ class Moyenne(Estimation):
         >>> ma_liste_operations = [mon_operation1]
         >>> mypipeline = Pipeline(ma_liste_operations, test)
         >>> isinstance(mypipeline , Pipeline)
+        True
         >>> mon_operation1.ope(mypipeline)
+        [4.33]
 
 
         """
