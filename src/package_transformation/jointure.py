@@ -27,6 +27,7 @@ class Jointure(Transformation):
     >>> import numpy as np
     >>> mes_donnees_1 = Donnees('mon_nom_jeu_de_donnees',['nom', 'valeur'],[['a',1], ['b', 5 ], ['c',9]])
     >>> mes_donnees_2 = Donnees('mon_nom_jeu_de_donnees',['nom', 'titre'],[['a','numero1'], ['b', 'numero2' ], ['c','numero3']])
+    >>> mon_pipeline = Pipeline([Jointure(mes_donnees_2,['nom'])], mes_donnees_1)
     >>> mon_pipeline.execute()
     >>> print(mon_pipeline)
     [['a' 1 'numero1']
