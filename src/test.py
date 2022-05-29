@@ -36,3 +36,11 @@ file_name_csv=[]
 file_name_json=[]
 
 question_1=Pipeline([ChargementJson(folder_json,file_name_json),ChargementCsv(folder_csv,file_name_csv),Jointure('autre_donnes','keys'), Aggreg('space_var'),Jointure('autre_donnes','keys'), Nuage_de_points('vars')])
+
+reponse_1=question_1.get_res()
+
+question_2=Pipeline([Nuage_de_points('vars')],reponse_1)
+
+question_3 = Pipeline([Serie_temporelle('vars','time_var')], reponse_1)
+
+question_4 = Pipeline([Carte('var')],reponse_1)
