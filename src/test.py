@@ -43,4 +43,4 @@ question_2=Pipeline([Nuage_de_points('vars')],reponse_1)
 
 question_3 = Pipeline([Serie_temporelle('vars','time_var')], reponse_1)
 
-question_4 = Pipeline([])
+question_4 = Pipeline([Carte('var')],reponse_1)
