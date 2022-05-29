@@ -28,9 +28,36 @@ class Donnees :
     Examples
     --------
     >>> import numpy as np
-    >>> test = Donnees('nom',['nom', 'valeur'],[['a',1], ['b', 5 ], ['c',9]])
+    >>> mes_donnees = Donnees('mon_nom_jeu_de_donnees',['nom', 'valeur'],[['a',1], ['b', 5 ], ['c',9]])
+    >>> isinstance(mes_donnees, Donnees)
+    True
+    >>> mes_donnees.nom
+    'mon_nom_jeu_de_donnees'
+    >>> mes_donnees.variables
+    ['nom', 'valeur']
+    >>> mes_donnees.var_types
+    [<class 'str'>, <class 'int'>]
+    >>> type(mes_donnees.data)
+    <class 'numpy.ndarray'>
+    >>> print(mes_donnees.data)
+    [['a' 1]
+     ['b' 5]
+     ['c' 9]]
+
+
     '''
     def __init__(self, nom , variables, data):
+        """_summary_
+
+        Parameters
+        ----------
+        nom: str
+            nom du jeu de données
+        variables : list[str]
+            Liste des noms de variables
+        data : np.array
+            donnees du jeu de donnees converties en array
+        """
         self.variables = variables
         self.data = np.array(data,dtype=object)
         self.var_types = []
@@ -274,4 +301,4 @@ class Donnees :
 if __name__ == '__main__':
     #Test des exemples de la documentation
     import doctest
-    doctest.testmod(verbose=True)
+    doctest.testmod(verbose=False)
