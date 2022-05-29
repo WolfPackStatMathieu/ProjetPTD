@@ -4,7 +4,32 @@ from estimation.moyenne import Moyenne
 from estimation.variance import Variance
 
 class Normalisation(Transformation):
+    '''classe de l'opération de normalisation qui permet de soustraire la moyenne à toute les valeurs et
+    diviser par la variance
 
+    Parameters
+    ----------
+    variables : list[str]
+        Liste des noms de variables à normaliser
+    Attributes
+    ----------
+
+    variables : list[str]
+        Liste des noms de variables à normaliser
+
+    Examples
+    --------
+    >>> import numpy as np
+    >>> mes_donnees = Donnees('mon_nom_jeu_de_donnees',['nom', 'valeur'],[['a',1], ['b', 2], ['c',3]])
+    >>> mon_pipeline = Pipeline([Normalisation(['valeur'])], mes_donnes)
+    >>> mon_pipeline.execute()
+    >>> print(mon_pipeline)
+    [['a' -4.0]
+     ['b' 0.0]
+     ['c' 4.0]]    
+
+
+    '''
     def __init__(self, variables):
         self.variables = variables
 
