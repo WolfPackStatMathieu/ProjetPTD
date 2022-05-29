@@ -70,11 +70,9 @@ class SauvegardeCsv(Sauvegarde):
         >>> nom_fichier=['synop.201301.csv.gz']
         >>> delimiteur = ';'
         >>> from src.pipeline import Pipeline
-        >>> pipeline1 = Pipeline([ChargementCsv(chemin_dossier, nom_fichier, delimiteur, True)], 'synop_201301')
+        >>> pipeline1 = Pipeline([ChargementCsv(chemin_dossier, nom_fichier, delimiteur, True)])
         >>> pipeline1.add_ope(SauvegardeCsv(chemin, nom2))
         >>> pipeline1.execute()
-
-
 
 
         """
@@ -86,5 +84,5 @@ if __name__ == '__main__':
     #Test des exemples de la documentation
     import doctest
     doctest.testmod(verbose=False)
-    print(globals().keys())
+    # print(globals().keys())
 
