@@ -1,7 +1,7 @@
 
 from src.pipeline import Pipeline
 from transformation import Transformation
-from estimation.moyenne import Moyenne
+from package_estimation.moyenne import Moyenne
 
 class Centrage(Transformation):
     '''classe de l'opération de centrage qui permet de soustraire la moyenne à toute les valeurs

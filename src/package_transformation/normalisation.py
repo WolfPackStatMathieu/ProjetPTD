@@ -1,7 +1,7 @@
 from src.pipeline import Pipeline
 from transformation import Transformation
-from estimation.moyenne import Moyenne
-from estimation.variance import Variance
+from package_estimation.moyenne import Moyenne
+from package_estimation.variance import Variance
 
 class Normalisation(Transformation):
     '''classe de l'opération de normalisation qui permet de soustraire la moyenne à toute les valeurs et
