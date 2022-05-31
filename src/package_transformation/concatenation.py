@@ -1,5 +1,5 @@
 from src.pipeline import Pipeline
-from transformation import Transformation
+from src.package_transformation.transformation import Transformation
 
 class Concatenation(Transformation):
     '''classe de l'opération de concatenation qui permet de concaténer une liste de données en entrée
@@ -31,13 +31,13 @@ class Concatenation(Transformation):
      ['c' 10]
      ['a' 3]
      ['b' 7]
-     ['c' 8]]  
+     ['c' 8]]
 
 
     '''
     def __init__(self, liste_donnees):
         self.donnees = liste_donnees
-    
+
     def ope(self, pipeline : Pipeline):
         '''méthode qui permet d'exécuter l'opération
 

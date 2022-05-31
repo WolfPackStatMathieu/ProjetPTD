@@ -58,6 +58,11 @@ class ChargementCsv(Chargement):
         header : bool, optionnel
             vaut True si la première ligne contient le nom des variables, par défaut True
 
+        Returns : list[Donnees]
+            retourne une liste d'objets Donnees
+
+
+
         Examples
         --------
         >>> import os
@@ -74,6 +79,7 @@ class ChargementCsv(Chargement):
 
 
         """
+        liste_donnees =[]
         # >>> nom_fichier=['synop.201301.csv.gz']
         # >>> nom_fichier=['all']
         # >>> delimiteur = ';'
@@ -190,6 +196,7 @@ class ChargementCsv(Chargement):
             globals()[nom_donnees] = Donnees(nom= nom_donnees ,variables= variables, data= data)
             # globals()[nom_donnees].del_var(['']) #on supprime la dernière colonne qui est vide car c'était dans le CSV d'origine
             # print((globals()[nom_donnees]))
+            liste_donnees.append(Donnees(nom= nom_donnees ,variables= variables, data= data)) #on remplit la liste qui sera retournée
 
             #Création d'un inventaire des jeux de données existant
             if 'INVENTAIRE_CSV' not in globals().keys():
@@ -207,7 +214,7 @@ class ChargementCsv(Chargement):
 
             elif presence_na:
                 print("Attention: le jeu de données "f'{globals()[nom_donnees].nom} ' "présente des valeurs manquantes")
-
+        return liste_donnees
 
     def ope(self, pipeline):
         """prend une pipeline et ne renvoie rien

@@ -2,8 +2,8 @@
 from src.donnees import Donnees
 from src.pipeline import Pipeline
 import numpy as np
-from transformation import Transformation
-from transformation import Transformation
+from src.package_transformation.transformation import Transformation
+from src.package_transformation.transformation import Transformation
 class Jointure(Transformation):
     '''classe d'opération permettant de joindre à gauche des jeux de donnees
 
@@ -29,7 +29,7 @@ class Jointure(Transformation):
     >>> mes_donnees_2 = Donnees('mon_nom_jeu_de_donnees',['nom', 'titre'],[['a','numero1'], ['b', 'numero2' ], ['c','numero3']])
     >>> mon_pipeline = Pipeline([Jointure(mes_donnees_2,['nom'])], mes_donnees_1)
     >>> mon_pipeline.execute()
-    >>> print(mon_pipeline)
+    >>> print(mon_pipeline.resultat)
     [['a' 1 'numero1']
      ['b' 5 'numero2']
      ['c' 9 'numero3']]
@@ -58,17 +58,17 @@ class Jointure(Transformation):
         ajout =  np.full((pipeline.resultat.data.shape[0], len(variables_suppl)), np.nan, dtype= object)
 
         def test (i, k):
-            for v in variables_suppl :
-                if self.autre_donnes.data[i][self.autre_donnes.get_var(v)] != pipeline.resultat.data[k][pipeline.resultat.get_var(v)] :
+            for v in self.keys :
+                if self.autre_donnes.data[i,self.autre_donnes.get_var(v)] != pipeline.resultat.data[k,pipeline.resultat.get_var(v)] :
                     return False
             return True
 
         def parcours(i):
             for k in range(pipeline.resultat.data.shape[0]):
                 if test(i,k):
-                    for n in len(variables_suppl):
+                    for n in range(len(variables_suppl)):
                         v = variables_suppl[n]
-                        ajout[k][n] = self.autre_donnes.data[i][self.autre_donnes.get_var(v)]
+                        ajout[k,n] = self.autre_donnes.data[i,self.autre_donnes.get_var(v)]
                     return
 
 

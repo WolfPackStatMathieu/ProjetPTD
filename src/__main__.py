@@ -64,16 +64,18 @@ nom2 = ["postesSynopAvecRegions.csv.gz"]
 ##### 2 on crée les données
 path = Path(os.getcwd()).absolute()
 cheminDossier = str(path) + "\\fichiers stations et régions"
-# print(cheminDossier)
+print(cheminDossier)
 nom_fichier=['postesSynopAvecRegions.csv.gz']
 delimiteur = ';'
+liste_donnees = ChargementCsv(cheminDossier, nom_fichier, delimiteur, True).charge()
 
-pipeline1 = Pipeline([ChargementCsv(cheminDossier, nom_fichier, delimiteur, True)]).get_res()
+# pipeline1 = Pipeline([ChargementCsv(cheminDossier, nom_fichier, delimiteur, True)]).get_res()
+print(liste_donnees[0].data)
 
-print(pipeline1)
 
 #Vérification de la présence des jeux de données
 # print(globals().keys())
 # globals()["INVENTAIRE_JSON"]
 # print(globals() INVENTAIRE_JSON)
 # print(globals()['INVENTAIRE_CSV'])
+

@@ -1,7 +1,15 @@
+'''normalise une variable
+'''
 from src.pipeline import Pipeline
+<<<<<<< HEAD
 from transformation import Transformation
 from package_estimation.moyenne import Moyenne
 from package_estimation.variance import Variance
+=======
+from src.package_transformation.transformation import Transformation
+from src.package_estimation.moyenne import Moyenne
+from src.package_estimation.variance import Variance
+>>>>>>> a921665def220ecf4cba874a3d3a3a950e50efa2
 
 class Normalisation(Transformation):
     '''classe de l'opération de normalisation qui permet de soustraire la moyenne à toute les valeurs et
@@ -20,13 +28,17 @@ class Normalisation(Transformation):
     Examples
     --------
     >>> import numpy as np
+    >>> from src.pipeline import Pipeline
+    >>> from src.donnees import Donnees
+    >>> from src.package_estimation.moyenne import Moyenne
+    >>> from src.package_estimation.variance import Variance
     >>> mes_donnees = Donnees('mon_nom_jeu_de_donnees',['nom', 'valeur'],[['a',1], ['b', 2], ['c',3]])
-    >>> mon_pipeline = Pipeline([Normalisation(['valeur'])], mes_donnes)
+    >>> mon_pipeline = Pipeline([Normalisation(['valeur'])], mes_donnees)
     >>> mon_pipeline.execute()
-    >>> print(mon_pipeline)
-    [['a' -4.0]
-     ['b' 0.0]
-     ['c' 4.0]]    
+    >>> print(mon_pipeline.resultat)
+    [['a' 1 -1.49]
+     ['b' 2 0.0]
+     ['c' 3 1.49]]
 
 
     '''
@@ -42,9 +54,9 @@ class Normalisation(Transformation):
             pipeline sur lequel s'éxecute l'opération
         '''
         for v in self.variables:
-            v_moyen = Moyenne([v]).ope(Pipeline('',[v],pipeline.resultat.data[:][pipeline.resultat.get_var(v)]))
-            v_variance = Variance([v]).ope(Pipeline('',[v],pipeline.resultat.data[:][pipeline.resultat.get_var(v)]))
-            pipeline.resultat.transform(v +'_centr',[v],lambda x : (x[0] - v_moyen)/ v_variance)
+            v_moyen = Moyenne([v]).ope(pipeline)[0]
+            v_variance = Variance([v]).ope(pipeline)[0]
+            pipeline.resultat.transform(v +'_centr',[v],lambda x : round(((x[0] - v_moyen)/ v_variance),2) )
 
 
 if __name__ == '__main__':
