@@ -1,15 +1,9 @@
 '''normalise une variable
 '''
 from src.pipeline import Pipeline
-<<<<<<< HEAD
-from transformation import Transformation
-from package_estimation.moyenne import Moyenne
-from package_estimation.variance import Variance
-=======
 from src.package_transformation.transformation import Transformation
 from src.package_estimation.moyenne import Moyenne
 from src.package_estimation.variance import Variance
->>>>>>> a921665def220ecf4cba874a3d3a3a950e50efa2
 
 class Normalisation(Transformation):
     '''classe de l'opération de normalisation qui permet de soustraire la moyenne à toute les valeurs et
