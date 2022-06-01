@@ -3,7 +3,7 @@ module serie_temporelle.py
 '''
 from calendar import c
 from math import pi
-from this import d
+# from this import d
 from datetime import date
 import numpy as np
 import matplotlib.pyplot as plt
