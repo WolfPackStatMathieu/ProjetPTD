@@ -49,7 +49,7 @@ for file in file_name_json:
     nom = file.split(".")[0]
     fichiers_a_concatener.append(nom)
 
-liste_de_donnees = ChargementJson(folder_json, file_name_json[1:])
+liste_de_donnees = ChargementJson(folder_json, file_name_json[1:]).charge()
 
 
 question1=Pipeline([ChargementJson(folder_json,file_name_json),ChargementCsv(folder_csv,file_name_csv), Aggregation('numer_sta'),Jointure(Pipeline([Concatenation(file_name_json[1:]),file_name_json[0]]).get_res,'code_insee_region'), Nuage_points(['temperature', 'consommation_brute_electricite_rte'])])

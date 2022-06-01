@@ -20,7 +20,7 @@ class SauvegardeCsv(Sauvegarde):
     >>> import os
     >>> from pathlib import Path
     >>> from src.package_sauvegarde.sauvegardeCsv import SauvegardeCsv
-    >>> chemin = str(Path(os.getcwd()).absolute())
+    >>> chemin = r"C:\\Users\\mathi\\Documents\\Ensai\\Projet Traitement de Données\\PTD"
     >>> nom = "mon_test_export"
     >>> isinstance(SauvegardeCsv(chemin, nom), SauvegardeCsv)
     True
@@ -44,7 +44,7 @@ class SauvegardeCsv(Sauvegarde):
         True
         >>> import os
         >>> from pathlib import Path
-        >>> chemin = str(Path(os.getcwd()).absolute())
+        >>> chemin = r"C:\\Users\\mathi\\Documents\\Ensai\\Projet Traitement de Données\\PTD"
         >>> nom = "mon_test_export"
         >>> mon_pipeline = Pipeline([SauvegardeCsv(chemin, nom)], mes_donnees)
         >>> mon_pipeline.resultat.variables
@@ -55,7 +55,7 @@ class SauvegardeCsv(Sauvegarde):
         True
         >>> mon_pipeline.execute() # doctest:+ELLIPSIS
         >>> nom2 = "synop.201301_csv"
-        >>> chemin_dossier = str(Path(os.getcwd()).absolute()) + "\\Fichiers de Données .csv.gz-20220405"
+        >>> chemin_dossier = r"C:\\Users\\mathi\\Documents\\Ensai\\Projet Traitement de Données\\PTD\\Fichiers de Données .csv.gz-20220405"
         >>> nom_fichier=['synop.201301.csv.gz']
         >>> delimiteur = ';'
         >>> from src.package_chargement.chargement_csv import ChargementCsv
@@ -63,9 +63,7 @@ class SauvegardeCsv(Sauvegarde):
         jeu de Données créé issu d'un .csv: synop_201301
         Attention: le jeu de données synop_201301 présente des valeurs manquantes
         >>> import os
-        >>> from pathlib import Path
-        >>> path = Path(os.getcwd()).parent.absolute()
-        >>> chemin_dossier = str(path) + "\\Fichiers de Données .csv.gz-20220405"
+        >>> chemin_dossier = r"C:\\Users\\mathi\\Documents\\Ensai\\Projet Traitement de Données\\PTD\\Fichiers de Données .csv.gz-20220405"
         >>> nom_fichier=['synop.201301.csv.gz']
         >>> delimiteur = ';'
         >>> from src.pipeline import Pipeline
@@ -74,12 +72,18 @@ class SauvegardeCsv(Sauvegarde):
         >>> result = pipeline1.execute() # doctest:+ELLIPSIS
         jeu de Données créé issu d'un .csv: synop_201301
         Attention: le jeu de données synop_201301 présente des valeurs manquantes
-
+        >>> chemin_dossier = r"C:\\Users\\mathi\\Documents\\Ensai\\Projet Traitement de Données\\PTD\\Fichiers de Données .json.gz-20220405\\données_électricité"
+        >>> nom_fichier=['2013-01.json.gz']
+        >>> nom2 = "201301_json"
+        >>> from src.package_chargement.chargement_json import ChargementJson
+        >>> pipeline2 = Pipeline([ChargementJson(chemin_dossier, nom_fichier, delimiteur, True), SauvegardeCsv(chemin, nom2)])
+        >>> result = pipeline2.execute() # doctest:+ELLIPSIS
+        jeu de Données créé issu d'un .json : 2013-01
 
 
         """
         chemin_complet = self.chemin + "\\" + self.nom +".csv"
-        np.savetxt(chemin_complet, pipeline.resultat.data, delimiter=",", header = ','.join(pipeline.resultat.variables),  fmt='%s')
+        np.savetxt(chemin_complet, pipeline.resultat.data, delimiter=",", header = ','.join(pipeline.resultat.variables),  fmt='%s', encoding = 'utf8')
 
 
 if __name__ == '__main__':

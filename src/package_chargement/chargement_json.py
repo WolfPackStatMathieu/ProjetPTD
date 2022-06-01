@@ -41,21 +41,20 @@ class ChargementJson(Chargement):
 
     Examples
     --------
-    >>> import os
-    >>> from pathlib import Path
-    >>> path = Path(os.getcwd()).parent.parent.absolute()
-    >>> chemin_dossier = str(path) + "\\Fichiers de Données .json.gz-20220405"
-    >>> nom_fichier=['2013-01.json.gz']
-    >>> delimiteur = ';'
-    >>> mon_chargementJson = ChargementJson(chemin_dossier, nom_fichier, delimiteur, True)
-    >>> print(mon_chargementJson.delim)
-    ;
-    >>> isinstance(mon_chargementJson, ChargementJson)
-    True
-    >>> path = Path(os.getcwd()).absolute()
-    >>> folder_json=str(path) + '\\Fichiers de Données .json.gz-20220405'
-    >>> file_name_json=['2013-01.json.gz']
-    >>> liste_de_donnees = ChargementJson(folder_json, file_name_json)
+    # >>> import os
+    # >>> from pathlib import Path
+    # >>> chemin_dossier = r"C:\\Users\\mathi\\Documents\\Ensai\\Projet Traitement de Données\\PTD\\Fichiers de Données .json.gz-20220405"
+    # >>> nom_fichier=['2013-01.json.gz']
+    # >>> delimiteur = ';'
+    # >>> mon_chargementJson = ChargementJson(chemin_dossier, nom_fichier, delimiteur, True)
+    # >>> print(mon_chargementJson.delim)
+    # ;
+    # >>> isinstance(mon_chargementJson, ChargementJson)
+    # True
+    # >>> path = Path(os.getcwd()).absolute()
+    # >>> folder_json= r"C:\\Users\\mathi\\Documents\\Ensai\\Projet Traitement de Données\\PTD\\Fichiers de Données .json.gz-20220405"
+    # >>> file_name_json=['2013-01.json.gz']
+    # >>> liste_de_donnees = ChargementJson(folder_json, file_name_json)
 
 
 
@@ -65,7 +64,7 @@ class ChargementJson(Chargement):
     def __init__(self, chemin_dossier, noms_fichiers, delim =';', header=True):
         """Constructeur de ChargementJson
 
-        Parameters
+        Parametersient
         ----------
         chemin_dossier : str
             chemin du dossier où sont situés les fichiers à charger
@@ -75,19 +74,25 @@ class ChargementJson(Chargement):
         delim : str, optional
             Caractère séparant les colonnes, by default ';'
         header : bool, optional
-            vaut True si la première ligne contient le nom des variables, by default True
+            vaut True si la première ligne contle nom des variables, by default True
 
         Example
         -------
         >>> import os
         >>> from pathlib import Path
-        >>> path = Path(os.getcwd()).parent.parent.absolute()
-        >>> chemin_dossier = str(path) + "\\Fichiers de Données .json.gz-20220405"
+        >>> chemin_dossier = r"C:\\Users\\mathi\\Documents\\Ensai\\Projet Traitement de Données\\PTD\\Fichiers de Données .json.gz-20220405"
         >>> nom_fichier=['2013-01.json.gz']
         >>> delimiteur = ';'
+        >>> mon_chargementJson = ChargementJson(chemin_dossier, nom_fichier, delimiteur, True).charge()
+        jeu de Données créé issu d'un .json : 2013-01
+        >>> type(mon_chargementJson)
+        <class 'list'>
+        >>> type(mon_chargementJson[0])
+        <class 'src.donnees.Donnees'>
+        >>> ma_donnee = mon_chargementJson[0]
+        >>> print(ma_donnee.nom)
+        2013-01
         >>> mon_chargementJson = ChargementJson(chemin_dossier, nom_fichier, delimiteur, True)
-        >>> print(mon_chargementJson.delim)
-        ;
         >>> print(mon_chargementJson.noms_fichiers)
         ['2013-01.json.gz']
 
@@ -113,14 +118,14 @@ class ChargementJson(Chargement):
         Examples
         --------
         >>> import os
-        >>> from pathlib import Path
-        >>> path = Path(os.getcwd()).absolute()
-        >>> chemin_dossier = str(path)+ "\\Fichiers de Données .json.gz-20220405" + "\\données_électricité"
+        >>> chemin_dossier = r"C:\\Users\\mathi\\Documents\\Ensai\\Projet Traitement de Données\\PTD\\Fichiers de Données .json.gz-20220405\\données_électricité"
         >>> nom_fichier=['2013-01.json.gz','2013-02.json.gz']
         >>> delimiteur = ';'
-        >>> mon_chargementJson = ChargementJson(chemin_dossier, nom_fichier, delimiteur, True)
-        >>> liste_donnees = mon_chargementJson.charge()
+        >>> liste_donnees = ChargementJson(chemin_dossier, nom_fichier, delimiteur, True).charge() # doctest:+ELLIPSIS
         jeu de Données créé issu d'un .json : 2013-01
+        jeu de Données créé issu d'un .json : 2013-02
+        >>> type(liste_donnees[0])
+        <class 'src.donnees.Donnees'>
         >>> liste_donnees[1].nom
         '2013-02'
 
@@ -284,8 +289,7 @@ class ChargementJson(Chargement):
         --------
         >>> import os
         >>> from pathlib import Path
-        >>> path = Path(os.getcwd()).parent.parent.absolute()
-        >>> chemin_dossier = str(path) + "\\Fichiers de Données .json.gz-20220405"
+        >>> chemin_dossier =  r"C:\\Users\\mathi\\Documents\\Ensai\\Projet Traitement de Données\\Fichiers de Données .json.gz-20220405"
         >>> nom_fichier=['2013-01.json.gz']
         >>> delimiteur = ';'
         >>> from src.pipeline import Pipeline
@@ -296,14 +300,14 @@ class ChargementJson(Chargement):
         if self.noms_fichiers == ['all']:
             raise Exception("Vous n'avez pas spécifié de Données à charger.")
         else:
-            self.charge()
-            jeu_de_donnees = self.noms_fichiers[0]
-            jeu_de_donnees = jeu_de_donnees.split(".")
-            debut_nom = jeu_de_donnees[0]
-            date_fichier = jeu_de_donnees[1]
-            nom_donnees = debut_nom #+ "_" + date_fichier vu le nommage des fichiers json
-            jeu_de_donnees = globals()[nom_donnees]
-            pipeline.resultat = jeu_de_donnees
+            pipeline.resultat=self.charge()[0]
+            # jeu_de_donnees = self.noms_fichiers[0]
+            # jeu_de_donnees = jeu_de_donnees.split(".")
+            # debut_nom = jeu_de_donnees[0]
+            # date_fichier = jeu_de_donnees[1]
+            # nom_donnees = debut_nom #+ "_" + date_fichier vu le nommage des fichiers json
+            # jeu_de_donnees = globals()[nom_donnees]
+            # pipeline.resultat = jeu_de_donnees
 
 
 # variables =['datasetid', 'recordid', 'fields', 'code_insee_region', 'date', 'region', 'date_heure', 'heure', 'record_timestamp', 'consommation_brute_gaz_terega', 'statut_terega', 'consommation_brute_electricite_rte', 'statut_rte', 'consommation_brute_gaz_grtgaz', 'consommation_brute_totale', 'consommation_brute_gaz_totale', 'statut_grtgaz']

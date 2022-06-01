@@ -132,7 +132,7 @@ class ChargementCsv(Chargement):
             data = []
             presence_na = False
 
-            with gzip.open(chemin, mode='rt') as gzfile :
+            with gzip.open(chemin, mode='rt', encoding='utf-8') as gzfile :
                 #.readlines()[1:3] pour ne lire que les 3 premières lignes
                 synopreader = csv.reader(gzfile.readlines(), delimiter = self.delim)
                 for row in synopreader :

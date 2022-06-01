@@ -53,14 +53,14 @@ class Aggregation(Transformation):
         # de la station et la région ###
 
         ##### on crée les données
-        path = Path(os.getcwd()).parent.parent.absolute()
+        path = 'C:\\Users\\mathi\\Documents\\Ensai\\Projet Traitement de Données\\PTD'
         cheminDossier = str(path) + "\\fichiers stations et régions"
         nom_fichier=['postesSynopAvecRegions.csv.gz']
         delimiteur = ';'
         liste_donnees = ChargementCsv(cheminDossier, nom_fichier, delimiteur, True).charge()
         correspondance = liste_donnees[0] #récupération des Données de correspondance
 
-        tableau_joint = Pipeline([Jointure((correspondance,'numer_sta')), pipeline.resultat]).get_res()
+        tableau_joint = Pipeline([Jointure(correspondance,['numer_sta'])],pipeline.resultat).get_res()
         tableau_joint.var_num(['date','code_insee_region'])
         groupement={}
         j = tableau_joint.get_var('code_insee_region')
