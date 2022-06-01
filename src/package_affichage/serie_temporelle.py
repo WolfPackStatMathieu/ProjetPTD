@@ -54,8 +54,8 @@ class Serie_temporelle(Affichage):
                     if not(np.isnan(pipeline.resultat.data[i,j]) or np.isnan(pipeline.resultat.data[i,k])):
                         petite_liste_y.append(pipeline.resultat.data[i, j])
                         petite_liste_x.append(pipeline.resultat.data[i, k] )
-sss
-                grosse_liste.append([psetite_liste_x, petite_liste_y] )
+
+                grosse_liste.append([petite_liste_x, petite_liste_y] )
 
 
         couleur = []
@@ -72,8 +72,8 @@ sss
             affichex,affichey = [ list(tuple) for tuple in  tuples]
 
             plt.plot(affichex, affichey, c = couleur[k])
-        plt.title("Série temporelle des données météo et énergie")
-        plt.show()
+            plt.title("Série temporelle des données météo et énergie")
+            plt.show()
 
 
 
