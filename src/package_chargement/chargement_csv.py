@@ -177,6 +177,13 @@ class ChargementCsv(Chargement):
                     #on reformatte la valeur pour en faire une date
                     row[index] = datetime.strptime(str(row[index]), "%Y%m%d%H%M%S")
 
+            ### Gestion des identifiants des fichiers csv ###
+            if "numer_sta" in variables:
+                index = variables.index("numer_sta") #position de la colonne
+                for i, row in enumerate(data):
+                    #on padde à 5 caractères, avec des 0 à gauche
+                    row[index] = f'{row[index]:05}'
+
 
             ### Gestion des lignes trop courtes ###
             #on introduit des valeurs manquantes
