@@ -63,6 +63,7 @@ class Donnees :
         self.var_types = []
         for v in self.variables:
             self.var_types.append(self.var_type(v))
+           # print(v)
         self.nom = nom
 
     def get_var(self, nom_variable):
@@ -107,6 +108,7 @@ class Donnees :
         --------
         >>> import numpy as np
         >>> test = Donnees('nom',['nom', 'valeur'],[['a',1], ['b', 5 ], ['c',9]])
+
         >>> test.var_type('valeur')
         <class 'int'>
         '''

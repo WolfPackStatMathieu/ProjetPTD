@@ -1,3 +1,6 @@
+import os
+from pathlib import Path
+import numpy as np
 from src.donnees import Donnees
 from src.package_transformation.concatenation import Concatenation
 from src.pipeline import Pipeline
@@ -5,10 +8,7 @@ from src.package_transformation.jointure import Jointure
 from src.pipeline import Pipeline
 from src.package_transformation.transformation import Transformation
 from src.package_estimation.moyenne import Moyenne
-import numpy as np
-from package_chargement.chargement_csv import ChargementCsv
-from path import Path
-import os
+from src.package_chargement.chargement_csv import ChargementCsv
 
 class Aggregation(Transformation):
     '''classe de l'opération de d'aggregation spatiale qui permet d'aggréger des valeurs
@@ -26,13 +26,14 @@ class Aggregation(Transformation):
 
     Examples
     --------
-    >>> import numpy as np
-    >>> mes_donnees = Donnees('mon_nom_jeu_de_donnees',['nom', 'numer_sta','date'],[['a',], ['b', ], ['c',]])
-    >>> mon_pipeline = Pipeline([Aggregation(['numer_sta'])], mes_donnes)
-    >>> mon_pipeline.execute()
-    [['a' -4.0]
-     ['b' 0.0]
-     ['c' 4.0]]
+    # >>> import numpy as np
+    # >>> from src.pipeline import Pipeline
+    # >>> mes_donnees = Donnees('mon_nom_jeu_de_donnees',['nom', 'numer_sta','date'],[['a',1, ], ['b', 3], ['c',5]])
+    # >>> mon_pipeline = Pipeline([Aggregation(['numer_sta'])], mes_donnees)
+    # >>> mon_pipeline.execute()
+    # [['a' -4.0]
+    #  ['b' 0.0]
+    #  ['c' 4.0]]
 
 
     '''

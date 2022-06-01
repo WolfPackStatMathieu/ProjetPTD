@@ -45,13 +45,17 @@ class ChargementJson(Chargement):
     >>> from pathlib import Path
     >>> path = Path(os.getcwd()).parent.parent.absolute()
     >>> chemin_dossier = str(path) + "\\Fichiers de Données .json.gz-20220405"
-    >>> nom_fichier='2013-01.json.gz'
+    >>> nom_fichier=['2013-01.json.gz']
     >>> delimiteur = ';'
     >>> mon_chargementJson = ChargementJson(chemin_dossier, nom_fichier, delimiteur, True)
     >>> print(mon_chargementJson.delim)
     ;
     >>> isinstance(mon_chargementJson, ChargementJson)
     True
+    >>> path = Path(os.getcwd()).absolute()
+    >>> folder_json=str(path) + '\\Fichiers de Données .json.gz-20220405'
+    >>> file_name_json=['2013-01.json.gz']
+    >>> liste_de_donnees = ChargementJson(folder_json, file_name_json)
 
 
 
@@ -112,13 +116,16 @@ class ChargementJson(Chargement):
         >>> from pathlib import Path
         >>> path = Path(os.getcwd()).absolute()
         >>> chemin_dossier = str(path)+ "\\Fichiers de Données .json.gz-20220405" + "\\données_électricité"
-        >>> nom_fichier=['2013-01.json.gz']
+        >>> nom_fichier=['2013-01.json.gz','2013-02.json.gz']
         >>> delimiteur = ';'
         >>> mon_chargementJson = ChargementJson(chemin_dossier, nom_fichier, delimiteur, True)
-        >>> mon_chargementJson.charge()
+        >>> liste_donnees = mon_chargementJson.charge()
         jeu de Données créé issu d'un .json : 2013-01
+        >>> liste_donnees[1].nom
+        '2013-02'
 
         """
+        liste_donnees = [] #la liste qui sera retournée
         #On récupère la liste de TOUS les fichiers (avec le chemin absolu
         # )contenus dans le dossier donné en paramètre
         fichiers_trouves = {}
@@ -250,12 +257,20 @@ class ChargementJson(Chargement):
             # Les objets Donnees issus de .json prennent sont nommés par leur date
             print("jeu de Données créé issu d'un .json : " +  nom_donnees)
             globals()[nom_donnees] = Donnees(nom= nom_donnees ,variables= variables, data= donnees)
+
+            liste_donnees.append(Donnees(nom = nom_donnees, variables = variables , data= donnees)) #on rempli la liste qui sera retournée
+
+
+
             if 'INVENTAIRE_JSON' not in globals().keys():
                 global INVENTAIRE_JSON
                 INVENTAIRE_JSON = []
                 INVENTAIRE_JSON.append(globals()[nom_donnees])
             else:
                 INVENTAIRE_JSON.append(globals()[nom_donnees])
+
+        return liste_donnees
+
 
     def ope(self, pipeline):
         """prend une pipeline et en renvoie rien
@@ -299,7 +314,7 @@ if __name__ == '__main__':
     current_time = now.strftime("%H:%M:%S")
     print("Current Time =", current_time)
     doctest.testmod(verbose = False)
-    print([Donnees.nom for Donnees in globals()['INVENTAIRE_JSON']])
+    # print([Donnees.nom for Donnees in globals()['INVENTAIRE_JSON']])
     now = datetime.now()
     current_time = now.strftime("%H:%M:%S")
     print("Current Time =", current_time)

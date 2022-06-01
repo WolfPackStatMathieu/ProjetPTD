@@ -79,7 +79,7 @@ class ChargementCsv(Chargement):
 
 
         """
-        liste_donnees =[]
+        liste_donnees =[] #la liste qui sera retournée
         # >>> nom_fichier=['synop.201301.csv.gz']
         # >>> nom_fichier=['all']
         # >>> delimiteur = ';'
@@ -230,7 +230,6 @@ class ChargementCsv(Chargement):
         >>> from src.pipeline import Pipeline
         >>> pipeline1 = Pipeline([ChargementCsv(chemin_dossier, nom_fichier, delimiteur, True)]) # doctest:+ELLIPSIS
         >>> isinstance(pipeline1, Pipeline)
-
         True
 
 
