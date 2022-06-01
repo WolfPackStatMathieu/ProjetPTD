@@ -51,11 +51,11 @@ class Serie_temporelle(Affichage):
                 j = pipeline.resultat.get_var(v)
 
                 for i in range(pipeline.resultat.data.shape[0]):
-                    if not(np.isnan(pipeline.resultat.data[i,j] or np.isnan(pipeline.resultat.data[i,k])):
+                    if not(np.isnan(pipeline.resultat.data[i,j]) or np.isnan(pipeline.resultat.data[i,k])):
                         petite_liste_y.append(pipeline.resultat.data[i, j])
                         petite_liste_x.append(pipeline.resultat.data[i, k] )
-
-                grosse_liste.append([petite_liste_x, petite_liste_y] )
+sss
+                grosse_liste.append([psetite_liste_x, petite_liste_y] )
 
 
         couleur = []
