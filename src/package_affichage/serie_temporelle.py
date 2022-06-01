@@ -51,7 +51,7 @@ class Serie_temporelle(Affichage):
                 j = pipeline.resultat.get_var(v)
 
                 for i in range(pipeline.resultat.data.shape[0]):
-                    if not(np.isnan(pipeline.resultat.data[i,j])):
+                    if not(np.isnan(pipeline.resultat.data[i,j]) or np.isnan(pipeline.resultat.data[i,k])):
                         petite_liste_y.append(pipeline.resultat.data[i, j])
                         petite_liste_x.append(pipeline.resultat.data[i, k] )
 
@@ -65,9 +65,15 @@ class Serie_temporelle(Affichage):
 
 
         for k in grosse_liste:
-            plt.plot(grosse_liste[i][0], grosse_liste[i][1], c = couleur[k])
-        plt.title("Série temporelle des données météo et énergie")
-        plt.show()
+
+            zipped_lists = zip(grosse_liste[i][0], grosse_liste[i][1])
+            sorted_pairs = sorted(zipped_lists)
+            tuples = zip(*sorted_pairs)
+            affichex,affichey = [ list(tuple) for tuple in  tuples]
+
+            plt.plot(affichex, affichey, c = couleur[k])
+            plt.title("Série temporelle des données météo et énergie")
+            plt.show()
 
 
 
