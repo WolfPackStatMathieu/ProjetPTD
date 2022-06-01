@@ -3,8 +3,13 @@
 '''
 
 from src.pipeline import Pipeline
+<<<<<<< HEAD
+from transformation import Transformation
+from package_estimation.moyenne import Moyenne
+=======
 from src.package_transformation.transformation import Transformation
 from src.package_estimation.moyenne import Moyenne
+>>>>>>> a921665def220ecf4cba874a3d3a3a950e50efa2
 
 class Centrage(Transformation):
     '''classe de l'opération de centrage qui permet de soustraire la moyenne à toute les valeurs

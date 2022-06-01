@@ -2,7 +2,7 @@ from src.donnees import Donnees
 from src.pipeline import Pipeline
 from transformation import Transformation
 import numpy as np
-from estimation.moyenne import Moyenne
+from package_estimation.moyenne import Moyenne
 
 class Moyenne_Glissante(Transformation):
     '''classe d'opération permettant de calculer la moyenne glissante des variables en entrée"
