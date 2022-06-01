@@ -42,7 +42,18 @@ folder_json=str(path) + '\\Fichiers de Données .json.gz-20220405'
 file_name_csv=['synop.201301.csv.gz', 'synop.201302.csv.gz']
 file_name_json=['2013-01.json.gz', '2013-02.json.gz']
 
-question1=Pipeline([ChargementJson(folder_json,file_name_json),ChargementCsv(folder_csv,file_name_csv),Concatenation(file_name_csv[1:]), Aggregation('numer_sta'),Jointure(Pipeline([Concatenation(file_name_json[1:]),file_name_json[0]]).get_res,'code_insee_region'), Nuage_points(['temperature', 'consommation_brute_electricite_rte'])])
+
+
+fichiers_a_concatener =[]
+for file in file_name_json:
+    nom = file.split(".")[0]
+    fichiers_a_concatener.append(nom)
+
+liste_de_donnees = ChargementJson(folder_json, file_name_json[1:])
+
+
+question1=Pipeline([ChargementJson(folder_json,file_name_json),ChargementCsv(folder_csv,file_name_csv), Aggregation('numer_sta'),Jointure(Pipeline([Concatenation(file_name_json[1:]),file_name_json[0]]).get_res,'code_insee_region'), Nuage_points(['temperature', 'consommation_brute_electricite_rte'])])
+question1.execute()
 # Nuage_points(['temperature', 'consommation_brute_electricite_rte']).ope(question1).get_res()
 reponse_1 = question1.resultat
 print(reponse_1.variables)
