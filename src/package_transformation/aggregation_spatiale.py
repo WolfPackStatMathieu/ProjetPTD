@@ -58,11 +58,12 @@ class Aggregation(Transformation):
         delimiteur = ';'
         liste_donnees = ChargementCsv(cheminDossier, nom_fichier, delimiteur, True).charge()
         correspondance = liste_donnees[0] #récupération des Données de correspondance
+        correspondance.add_var(['numer_sta'],correspondance.data[:,correspondance.get_var('ID')])
 
         tableau_joint = Pipeline([Jointure((correspondance,'numer_sta')), pipeline.resultat]).get_res()
-        tableau_joint.var_num(['date','code_insee_region'])
+        tableau_joint.var_num(['date','region'])
         groupement={}
-        j = tableau_joint.get_var('code_insee_region')
+        j = tableau_joint.get_var('region')
         k = tableau_joint.get_var('date')
         for i in range(tableau_joint.data.shape[0]):
             cle =[tableau_joint.data[i,j],tableau_joint.data[i,k]]
@@ -75,9 +76,9 @@ class Aggregation(Transformation):
         for cle in groupement.keys():
             memo_date = groupement[cle].data[0,k]
             memo_geo = groupement[cle].data[0,j]
-            groupement[cle].del_var(['date', 'code_insee_region'])
+            groupement[cle].del_var(['date', 'region'])
             aggregat = Pipeline([Moyenne(groupement[cle].variables)],groupement[cle]).get_res
-            aggregat.add_var(['date','code_insee_region'],np.array([memo_date,memo_geo]))
+            aggregat.add_var(['date','region'],np.array([memo_date,memo_geo]))
             nouvelles_lignes.append(aggregat)
 
         resultat=Pipeline([Concatenation(nouvelles_lignes[1,:])],nouvelles_lignes[0])
