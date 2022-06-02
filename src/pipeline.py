@@ -55,7 +55,7 @@ class Pipeline:
 
     def get_res(self):
         ''' renvoie l'attribut resultat'''
-        self.execute
+        self.execute()
         return self.resultat
 
     def add_ope(self,operation):

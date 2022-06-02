@@ -52,7 +52,7 @@ for file in file_name_json:
 liste_de_donnees = ChargementJson(folder_json, file_name_json[1:]).charge()
 
 
-question1=Pipeline([ChargementJson(folder_json,file_name_json),ChargementCsv(folder_csv,file_name_csv), Aggregation('numer_sta'),Jointure(Pipeline([Concatenation(file_name_json[1:]),file_name_json[0]]).get_res,'code_insee_region'), Nuage_points(['temperature', 'consommation_brute_electricite_rte'])])
+question1=Pipeline([ChargementJson(folder_json,file_name_json),ChargementCsv(folder_csv,file_name_csv), Aggregation(),Jointure(Pipeline([],file_name_json[0]).get_res(),['region']), Nuage_points(['temperature', 'consommation_brute_electricite_rte'])])
 question1.execute()
 # Nuage_points(['temperature', 'consommation_brute_electricite_rte']).ope(question1).get_res()
 reponse_1 = question1.resultat

@@ -151,7 +151,8 @@ class Donnees :
         '''
 
         if self.data.shape[0] == donnees_sups.shape[0] :
-            self.variables += variable_sups
+            for i in variable_sups:
+                self.variables.append(i)
             self.data = np.concatenate((self.data, donnees_sups), axis = 1)
             for v in variable_sups:
                 self.var_types.append(self.var_type(v))

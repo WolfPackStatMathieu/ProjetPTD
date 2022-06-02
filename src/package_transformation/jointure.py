@@ -36,7 +36,7 @@ class Jointure(Transformation):
 
     '''
     def __init__(self,autre_donnees : Donnees, keys ):
-        self.autre_donnes = autre_donnees
+        self.autre_donnees = autre_donnees
         self.keys = keys
 
     def ope(self,pipeline : Pipeline):
@@ -48,8 +48,8 @@ class Jointure(Transformation):
             pipeline sur lequel s'éxecute l'opération
         '''
         variables_suppl = []
-        for v in self.autre_donnes.variables :
-            if v in pipeline.resultat.variables :
+        for  v in self.autre_donnees.variables:
+            if v in pipeline.resultat.variables:
                 if not v in self.keys:
                     raise Exception("Collusion de variables dans la jointure : " + v)
             else :
@@ -59,7 +59,7 @@ class Jointure(Transformation):
 
         def test (i, k):
             for v in self.keys :
-                if self.autre_donnes.data[i,self.autre_donnes.get_var(v)] != pipeline.resultat.data[k,pipeline.resultat.get_var(v)] :
+                if self.autre_donnees.data[i,self.autre_donnees.get_var(v)] != pipeline.resultat.data[k,pipeline.resultat.get_var(v)] :
                     return False
             return True
 
@@ -68,11 +68,11 @@ class Jointure(Transformation):
                 if test(i,k):
                     for n in range(len(variables_suppl)):
                         v = variables_suppl[n]
-                        ajout[k,n] = self.autre_donnes.data[i,self.autre_donnes.get_var(v)]
+                        ajout[k,n] = self.autre_donnees.data[i,self.autre_donnees.get_var(v)]
                     return
 
 
-        for i in range(np.shape(self.autre_donnes.data)[0]):
+        for i in range(np.shape(self.autre_donnees.data)[0]):
             parcours(i)
         pipeline.resultat.add_var(variables_suppl,ajout)
 

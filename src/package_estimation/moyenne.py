@@ -58,7 +58,10 @@ class Moyenne(Estimation):
                 if not(np.isnan(pipeline.resultat.data[i,j])):
                     liste.append(pipeline.resultat.data[i,j])
             somme = sum(liste)
-            moyenne = round(somme/len(liste), 2)
+            if len(liste)>0:
+                moyenne = round(somme/len(liste), 2)
+            else :
+                moyenne= np.nan
             liste_moyennes.append(moyenne)
         return liste_moyennes
 

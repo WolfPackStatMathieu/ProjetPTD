@@ -37,7 +37,7 @@ class Aggregation(Transformation):
 
 
     '''
-    def __init__(self, space_var,) :
+    def __init__(self, space_var='region',) :
         self.space_var = space_var
 
     def ope(self,pipeline : Pipeline):
@@ -59,32 +59,43 @@ class Aggregation(Transformation):
         delimiteur = ';'
         liste_donnees = ChargementCsv(cheminDossier, nom_fichier, delimiteur, True).charge()
         correspondance = liste_donnees[0] #récupération des Données de correspondance
-        correspondance.add_var(['numer_sta'],correspondance.data[:,correspondance.get_var('ID')])
+        correspondance.variables[correspondance.get_var("ID")]="numer_sta"
 
-        tableau_joint = Pipeline([Jointure((correspondance,'numer_sta')), pipeline.resultat]).get_res()
+        joindre=Pipeline([Jointure(pipeline.resultat,["numer_sta"])], correspondance)
+        joindre.execute()
+        tableau_joint = joindre.resultat
+        tableau_joint.variables[tableau_joint.get_var('Region')]='region'
         tableau_joint.var_num(['date','region'])
+
+
         groupement={}
+        liste=[]
+        indice=0
         j = tableau_joint.get_var('region')
         k = tableau_joint.get_var('date')
         for i in range(tableau_joint.data.shape[0]):
-            cle =[tableau_joint.data[i,j],tableau_joint.data[i,k]]
-            if not cle in groupement.keys():
-                groupement[cle]= Donnees('',tableau_joint.variables,tableau_joint[i,:])
+            cle =(tableau_joint.data[i,j],tableau_joint.data[i,k])
+            if ( cle not in groupement):
+                liste.append(Donnees('',tableau_joint.variables,[tableau_joint.data[i,:]]))
+                groupement[cle]= indice
+                indice+=1
             else:
-                groupement[cle].concat(Donnees('',tableau_joint.variables,tableau_joint[i,:]))
+                liste[groupement[cle]].concat(Donnees('',tableau_joint.variables,tableau_joint[i,:]))
 
         nouvelles_lignes=[]
-        for cle in groupement.keys():
-            memo_date = groupement[cle].data[0,k]
-            memo_geo = groupement[cle].data[0,j]
-            groupement[cle].del_var(['date', 'region'])
-            aggregat = Pipeline([Moyenne(groupement[cle].variables)],groupement[cle]).get_res
-            aggregat.add_var(['date','region'],np.array([memo_date,memo_geo]))
+        for l in liste :
+            memo_date = l.data[:,k]
+            memo_geo = l.data[:,j]
+            l.del_var(['date', 'region'])
+            aggregat = Pipeline([Moyenne(l.variables)],l).get_res()
+            aggregat.add_var(['date'],[memo_date])
+            aggregat.add_var(['region'],[memo_geo])
             nouvelles_lignes.append(aggregat)
 
         resultat=Pipeline([Concatenation(nouvelles_lignes[1,:])],nouvelles_lignes[0])
+        resultat.execute()
 
-        pipeline.resultat = resultat
+        pipeline.resultat = resultat.resultat
 
 
 if __name__ == '__main__':
