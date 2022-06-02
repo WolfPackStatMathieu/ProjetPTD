@@ -17,7 +17,7 @@ import src.package_transformation
 from src.package_transformation.aggregation_spatiale import Aggregation
 from src.package_affichage.nuage_points import Nuage_points
 from src.package_affichage.serie_temporelle import Serie_temporelle
-# from src.package_affichage.carte import Carte
+#from src.package_affichage.carte import Carte
 
 
 #####Déclaration des inventaires####
@@ -50,17 +50,17 @@ for file in file_name_json:
     fichiers_a_concatener.append(nom)
 
 liste_de_donnees = ChargementJson(folder_json, file_name_json[1:]).charge()
+# Aggregation(),Jointure(liste_de_donnees[0],['region'])
 
-
-question1=Pipeline([ChargementJson(folder_json,file_name_json),ChargementCsv(folder_csv,file_name_csv), Aggregation(),Jointure(Pipeline([],file_name_json[0]).get_res(),['region']), Nuage_points(['temperature', 'consommation_brute_electricite_rte'])])
+question1=Pipeline([ChargementJson(folder_json,file_name_json),ChargementCsv(folder_csv,file_name_csv),Nuage_points(['t', 'u'])])
 question1.execute()
-# Nuage_points(['temperature', 'consommation_brute_electricite_rte']).ope(question1).get_res()
 reponse_1 = question1.resultat
-print(reponse_1.variables)
+question2=Pipeline([ChargementJson(folder_json,file_name_json),ChargementCsv(folder_csv,file_name_csv),Serie_temporelle(['ff','t','pmer'], 'date')])
 
 
-question_2=Pipeline([Nuage_points('vars')],reponse_1)
+question2.execute()
 
-question_3 = Pipeline([Serie_temporelle('vars','time_var')], reponse_1)
+# question_3 = Pipeline([Serie_temporelle(['consommation_brute_electricite_rte'],'date')], reponse_1).get_res()
 
-# question_4 = Pipeline([Carte('var')],reponse_1) #Pyplot n'affiche rien dans VScode
+
+#question_4 = Pipeline([Carte('var')],reponse_1).get_res()

@@ -60,9 +60,9 @@ class Donnees :
         """
         self.variables = variables
         self.data = np.array(data,dtype=object)
-        self.var_types = []
-        for v in self.variables:
-            self.var_types.append(self.var_type(v))
+        # self.var_types = []
+        # for v in self.variables:
+        #     self.var_types.append(self.var_type(v))
            # print(v)
         self.nom = nom
 
@@ -112,11 +112,14 @@ class Donnees :
         >>> test.var_type('valeur')
         <class 'int'>
         '''
-        i = self.get_var(nom_variable)
-        for k in range(self.data.shape[0]):
-            if self.data[k,i] != np.nan:
-                return type(self.data[k,i])
-        return np.nan
+        return type(self.data[0,self.get_var(nom_variable)])
+        # i = self.get_var(nom_variable)
+        # k=0
+        # while k < self.data.shape[0]:
+        #     if self.data[k,i] != np.nan:
+        #         return type(self.data[k,i])
+        #     k+=1
+        # return np.nan
 
     def list_var(self) :
         '''renvoie la liste des variables
@@ -154,8 +157,8 @@ class Donnees :
             for i in variable_sups:
                 self.variables.append(i)
             self.data = np.concatenate((self.data, donnees_sups), axis = 1)
-            for v in variable_sups:
-                self.var_types.append(self.var_type(v))
+            # for v in variable_sups:
+            #     self.var_types.append(self.var_type(v))
         else:
             raise Exception("dimension non compatible")
 
@@ -177,11 +180,14 @@ class Donnees :
          [5]
          [9]]
         '''
-        for v in variables_to_del :
-            i = self.get_var(v)
+        indices = [self.get_var(v) for v in variables_to_del]
+        indices.sort()
+        indices.reverse()
+        for i in indices:
             self.variables.pop(i)
-            self.var_types.pop(i)
+            # self.var_types.pop(i)
             self.data = np.delete(self.data,i ,1)
+
 
     def var_num(self, exceptions=[]):
         '''enleve les variable non numériques du jeu de données sauf les exceptions
@@ -196,10 +202,13 @@ class Donnees :
          [5]
          [9]]
         '''
+        liste=[]
         for v in self.variables:
             if self.var_type(v) != int and self.var_type(v) != float :
                 if not v in exceptions:
-                    self.del_var([v])
+                    liste.append(v)
+        if liste !=[]:
+            self.del_var(liste)
 
     def concat(self, autres_donnees):
         '''concatène 2 jeu de données selon les variables de l'objet de la méthode

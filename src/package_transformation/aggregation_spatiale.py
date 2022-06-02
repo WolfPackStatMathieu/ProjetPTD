@@ -5,7 +5,6 @@ from src.donnees import Donnees
 from src.package_transformation.concatenation import Concatenation
 from src.pipeline import Pipeline
 from src.package_transformation.jointure import Jointure
-from src.pipeline import Pipeline
 from src.package_transformation.transformation import Transformation
 from src.package_estimation.moyenne import Moyenne
 from src.package_chargement.chargement_csv import ChargementCsv
@@ -59,43 +58,56 @@ class Aggregation(Transformation):
         delimiteur = ';'
         liste_donnees = ChargementCsv(cheminDossier, nom_fichier, delimiteur, True).charge()
         correspondance = liste_donnees[0] #récupération des Données de correspondance
+        correspondance.__setattr__("variables", correspondance.variables[:6])
+        correspondance.__setattr__("data", correspondance.data[:,0:6])
         correspondance.variables[correspondance.get_var("ID")]="numer_sta"
+        correspondance.variables[5]="region"
 
-        joindre=Pipeline([Jointure(pipeline.resultat,["numer_sta"])], correspondance)
+        joindre=Pipeline([Jointure(correspondance,["numer_sta"])],pipeline.resultat )
         joindre.execute()
         tableau_joint = joindre.resultat
-        tableau_joint.variables[tableau_joint.get_var('Region')]='region'
-        tableau_joint.var_num(['date','region'])
+        pipeline.resultat=tableau_joint
+        # tableau_joint.var_num(['date','region'])
 
 
-        groupement={}
-        liste=[]
-        indice=0
-        j = tableau_joint.get_var('region')
-        k = tableau_joint.get_var('date')
-        for i in range(tableau_joint.data.shape[0]):
-            cle =(tableau_joint.data[i,j],tableau_joint.data[i,k])
-            if ( cle not in groupement):
-                liste.append(Donnees('',tableau_joint.variables,[tableau_joint.data[i,:]]))
-                groupement[cle]= indice
-                indice+=1
-            else:
-                liste[groupement[cle]].concat(Donnees('',tableau_joint.variables,tableau_joint[i,:]))
+        # groupement={}
+        # liste=[]
+        # indice=0
+        # j = tableau_joint.get_var('region')
+        # k = tableau_joint.get_var('date')
 
-        nouvelles_lignes=[]
-        for l in liste :
-            memo_date = l.data[:,k]
-            memo_geo = l.data[:,j]
-            l.del_var(['date', 'region'])
-            aggregat = Pipeline([Moyenne(l.variables)],l).get_res()
-            aggregat.add_var(['date'],[memo_date])
-            aggregat.add_var(['region'],[memo_geo])
-            nouvelles_lignes.append(aggregat)
+        # for i in range(tableau_joint.data.shape[0]):
+        #     cle =(tableau_joint.data[i,j],tableau_joint.data[i,k])
+        #     if ( cle not in groupement):
+        #         liste.append(tableau_joint.data[i,:])
+        #         groupement[cle]= indice
+        #         indice+=1
+        #     else:
+        #         liste[groupement[cle]]= np.concatenate((tableau_joint.data[i,:],liste[groupement[cle]]), axis = 0)
 
-        resultat=Pipeline([Concatenation(nouvelles_lignes[1,:])],nouvelles_lignes[0])
-        resultat.execute()
+        # nouvelles_lignes=[]
+        # for l in liste :
+        #     L=[]
+        #     var = tableau_joint.variables
+        #     for v in range(len(var)):
+        #         if var[v] == 'date':
+        #             L.append(l[0,v])
+        #         elif var[v]=='region':
+        #             L.append(l[0,v])
+        #         elif type(var[v])!=int or type(var[v]) != float:
+        #             L.append(np.nan)
+        #         else :
+        #             enumer =[l[k,v] for k in range(l.data.shape[0])]
+        #             L.append(sum(enumer))
+        #     nouvelles_lignes.append(L)
 
-        pipeline.resultat = resultat.resultat
+
+        # nouvelles_donnees= [Donnees('', l.variables, Li) for Li in nouvelles_lignes]
+
+        # resultat=Pipeline([Concatenation(nouvelles_donnees[1:])],nouvelles_donnees[0])
+        # resultat.execute()
+
+
 
 
 if __name__ == '__main__':

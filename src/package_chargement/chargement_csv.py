@@ -11,6 +11,12 @@ from src.donnees import Donnees
 import numpy as np
 
 
+def isfloat(num):
+    try:
+        float(num)
+        return True
+    except ValueError:
+        return False
 
 class ChargementCsv(Chargement):
     """Permet le chargement de jeux de données à partir d'un dossier
@@ -138,18 +144,20 @@ class ChargementCsv(Chargement):
                 for row in synopreader :
                     # début du traitement de chaque ligne
                     for i, value in enumerate(row): # on parcourt chaque ligne
-                        try:
-                            if value == 'mq': # C'est une valeur manquante
-                                row[i] = np.NaN #transformation en type valeur manquante de numpy
-                                presence_na = True # On marque la présence de valeur manquante
-                            if value.isdigit(): # C'est un int
-                                row[i] = int(value) # on le caste en int
-                            else: #C'est donc un float
-                                row[i] = float(value.replace(',', '.')) # on remplace les ,
-                                #par des .
-                        except Exception:
-                            pass # C'était une str mal formatée
-                    data.append(row) #on ajoute la ligne à nos données
+                        tabous=[0,1]
+                        if i not in tabous:
+                            try:
+                                if value == 'mq': # C'est une valeur manquante
+                                    row[i] = np.NaN #transformation en type valeur manquante de numpy
+                                    presence_na = True # On marque la présence de valeur manquante
+                                if value.isdigit(): # C'est un int
+                                    row[i] = int(value) # on le caste en int
+                                if isfloat(value): #C'est donc un float
+                                    row[i] = float(value.replace(',', '.')) # on remplace les ,
+                                    #par des .
+                            except Exception:
+                                pass # C'était une str mal formatée
+                    data.append(row[:len(row)]) #on ajoute la ligne à nos données sauf la dernière colonne
 
             ### Gestion du nombre et des noms de variables ###
             #On récupère le nombre colonnes maximum : c'est le nombre de variables
@@ -159,12 +167,12 @@ class ChargementCsv(Chargement):
             if self.header: #Si le fichier fourni contient les noms de variables
                 #On met à part les noms des variables
                 variables = data.pop(0)
+                # variables = variables[0:len(variables)]
                 #print(variables)
                 #print(len(variables))
                 if len(variables) < nb_variables: #il manque des noms de variables
                     #On rajoute des noms de variables artificiels
-                    variables += [f'Var.{str(i)}' for i in range(len(variables) + 1,
-                                                                 nb_variables + 1)]
+                    variables += [f'Var.{str(i)}' for i in range(len(variables) + 1, nb_variables + 1)]
             else: #Il n'y a pas de nom de variable
                 #On les rajoute artificiellement
                 #Var.1 Var.2 Var.3 .....
@@ -182,7 +190,8 @@ class ChargementCsv(Chargement):
                 index = variables.index("numer_sta") #position de la colonne
                 for i, row in enumerate(data):
                     #on padde à 5 caractères, avec des 0 à gauche
-                    row[index] = f'{row[index]:05}'
+                    row[index] = row[index].rjust(5,'0' )
+
 
 
             ### Gestion des lignes trop courtes ###
@@ -194,7 +203,7 @@ class ChargementCsv(Chargement):
                     row += [np.NaN] * (nb_variables - len(row))
                     introduction_nan = True #signale l'introduction de valeurs manquantes
 
-
+            # data = data[:, 0:data.shape[1]] #gestion de la dernière colonne vide
             #On construit un objet Donnees par fichier qui prend en nom le début
             debut_nom = fichier.split('.')[0]
             date_fichier = fichier.split('.')[1]

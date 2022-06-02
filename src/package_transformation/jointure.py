@@ -47,6 +47,11 @@ class Jointure(Transformation):
         pipeline : Pipeline
             pipeline sur lequel s'éxecute l'opération
         '''
+        compteur=0
+        for k in self.keys:
+            assert k in self.autre_donnees.variables
+            assert k in pipeline.resultat.variables
+
         variables_suppl = []
         for  v in self.autre_donnees.variables:
             if v in pipeline.resultat.variables:
@@ -59,7 +64,8 @@ class Jointure(Transformation):
 
         def test (i, k):
             for v in self.keys :
-                if self.autre_donnees.data[i,self.autre_donnees.get_var(v)] != pipeline.resultat.data[k,pipeline.resultat.get_var(v)] :
+                h = self.autre_donnees.get_var(v)
+                if self.autre_donnees.data[i,h] != pipeline.resultat.data[k,h] :
                     return False
             return True
 
@@ -68,13 +74,20 @@ class Jointure(Transformation):
                 if test(i,k):
                     for n in range(len(variables_suppl)):
                         v = variables_suppl[n]
-                        ajout[k,n] = self.autre_donnees.data[i,self.autre_donnees.get_var(v)]
+                        h =self.autre_donnees.get_var(v)
+                        ajout[k,n] = self.autre_donnees.data[i,h]
                     return
 
 
         for i in range(np.shape(self.autre_donnees.data)[0]):
             parcours(i)
+            compteur+=1
+            if compteur == 10000:
+                print('STOP')
+                return
+
         pipeline.resultat.add_var(variables_suppl,ajout)
+
 
 if __name__ == '__main__':
     #Test des exemples de la documentation

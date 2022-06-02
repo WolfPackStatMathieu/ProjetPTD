@@ -72,8 +72,13 @@ class Pipeline:
 
     def execute(self):
         ''' execute l'ensemble des etapes'''
-        for commande in self.etapes :
+        i=0
+        while i < len(self.etapes):
+
+            commande = self.etapes[i]
             commande.ope(self)
+            print(type(commande))
+            i+=1
 
 if __name__ == '__main__':
     #Test des exemples de la documentation

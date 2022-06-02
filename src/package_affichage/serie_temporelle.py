@@ -40,38 +40,38 @@ class Serie_temporelle(Affichage):
         Args:
             pipeline (Pipeline): un pipeline
         """
-        if pipeline.resultat.var_type(self.var_time) != date:
-            raise Exception("Merci de bien entrer une variable temporelle")
-        else:
-            grosse_liste = []
-            k = pipeline.resultat.get_var(self.var_time)
-            for v in self.variables:
-                petite_liste_x=[]
-                petite_liste_y=[]
-                j = pipeline.resultat.get_var(v)
 
-                for i in range(pipeline.resultat.data.shape[0]):
-                    if not(np.isnan(pipeline.resultat.data[i,j]) or np.isnan(pipeline.resultat.data[i,k])):
-                        petite_liste_y.append(pipeline.resultat.data[i, j])
-                        petite_liste_x.append(pipeline.resultat.data[i, k] )
+        grosse_liste = []
+        k = pipeline.resultat.get_var(self.var_time)
+        for v in self.variables:
+            petite_liste_x=[]
+            petite_liste_y=[]
+            j = pipeline.resultat.get_var(v)
 
-                grosse_liste.append([petite_liste_x, petite_liste_y] )
+            for i in range(pipeline.resultat.data.shape[0]):
+                if not(pipeline.resultat.data[i,j]== np.nan) and not(pipeline.resultat.data[i,k]== np.nan):
+                    petite_liste_y.append(pipeline.resultat.data[i, j])
+                    petite_liste_x.append(pipeline.resultat.data[i, k] )
+
+            grosse_liste.append([petite_liste_x, petite_liste_y] )
 
 
         couleur = []
         n = len(grosse_liste)
         for i in range(n):
-            couleur.append( '#%06X' % random.randint(0, 0xFFFFFF))
+            col = (np.random.random(), np.random.random(), np.random.random())
+            couleur.append(col )
 
 
-        for k in grosse_liste:
+        for k in range(len(grosse_liste)):
 
-            zipped_lists = zip(grosse_liste[i][0], grosse_liste[i][1])
-            sorted_pairs = sorted(zipped_lists)
-            tuples = zip(*sorted_pairs)
-            affichex,affichey = [ list(tuple) for tuple in  tuples]
+            # zipped_lists = zip(grosse_liste[i][0], grosse_liste[i][1])
+            # sorted_pairs = sorted(zipped_lists)
+            # tuples = zip(*sorted_pairs)
+            # affichex,affichey = [ list(tuple) for tuple in  tuples]
 
-            plt.plot(affichex, affichey, c = couleur[k])
+
+            plt.plot(grosse_liste[k][0], grosse_liste[k][1], c=(np.random.random(), np.random.random(), np.random.random()))
             plt.title("Série temporelle des données météo et énergie")
             plt.show()
 
